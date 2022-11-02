@@ -1,0 +1,33 @@
+# ******************************************************************************
+#
+# vocutil, educational vocabulary utilities.
+#
+# Copyright 2022 Jeremy A Gray <gray@flyquackswim.com>.
+#
+# All rights reserved.
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# ******************************************************************************
+
+# Emacs.
+*~
+.dir-locals.el
+
+# Python.
+*.egg-info
+*.pyc
+.coverage
+.hypothesis/
+.pytest_cache
+.python-version
+.tox
+__pycache__
+build
+commit
+dist/
+docs/_build/
+htmlcov
+
+# Generated files.
+*.html

@@ -1,0 +1,148 @@
+# ******************************************************************************
+#
+# vocutil, educational vocabulary utilities.
+#
+# Copyright 2022 Jeremy A Gray <gray@flyquackswim.com>.
+#
+# All rights reserved.
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# ******************************************************************************
+
+[build-system]
+
+# Setuptools.
+requires = [
+  "setuptools",
+  "wheel",
+]
+build-backend = "setuptools.build_meta"
+
+# Poetry.
+# requires = ["poetry_core>=1.0.0"]
+# build-backend = "poetry.core.masonry.api"
+
+[tool]
+
+[tool.black]
+
+line-length = 88
+target-version = ['py38']
+include = '\.pyi?$'
+exclude = '''
+
+(
+  /(
+    \.git
+    | \.pytest_cache
+    | __pycache__
+    | htmlcov
+  )/
+)
+'''
+
+[tool.isort]
+
+ensure_newline_before_comments = true
+force_single_line = true
+include_trailing_comma = true
+line_length = 88
+multi_line_output = 3
+use_parentheses = true
+
+[tool.pccc]
+
+header_length = 50
+body_length = 72
+wrap = true
+force_wrap = true
+spell_check = false
+repair = false
+ignore_generated_commits = false
+
+types = [
+  "depends",
+  "doc",
+  "feat",
+  "fix",
+  "perf",
+  "refactor",
+  "release",
+  "style",
+  "test",
+]
+
+scopes = [
+  "bin",
+  "vocutil",
+  "tooling",
+]
+
+footers = [
+  "github-closes",
+  "signed-off-by",
+]
+
+required_footers = [
+  "signed-off-by",
+]
+
+[tool.poetry]
+
+authors = [
+  "Jeremy A Gray <gray@flyquackswim.com>",
+]
+description = "a Python/PDFLaTeX interface"
+name = "vocutil"
+version = "0.0.1"
+license = "GPL-3.0-or-later"
+maintainers = [
+  "Jeremy A Gray <gray@flyquackswim.com>",
+]
+readme = "README.rst"
+homepage = "https://github.com/jeremyagray/vocutil"
+repository = "https://github.com/jeremyagray/vocutil"
+
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Education",
+  "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+]
+
+packages = [
+  { include = "vocutil" },
+]
+
+[tool.poetry.dependencies]
+
+python = ">=3.8.1,<4.0"
+
+[tool.poetry.dev-dependencies]
+
+Sphinx = "^5"
+black = { version = "*", allow-prereleases = true }
+factory-boy = "^3.2"
+flake8 = "^3.8"
+flake8-docstrings = "^1.5"
+isort = "^5.6"
+hypothesis = "^6.9"
+pccc = "^0.4.13"
+pre-commit = "^2.9"
+pyfakefs = "^4.3"
+pytest = "^6.1"
+pytest-cov = "^2.10"
+tox = "^3"
+
+[tool.poetry.scripts]
+
+[tool.poetry.urls]
+
+"Issues" = "https://github.com/jeremyagray/vocutil/issues"
+"Documentation" = "https://vocutil.readthedocs.io/"
+"Repository" = "https://github.com/jeremyagray/vocutil"
+
+[tool.pytest.ini_options]

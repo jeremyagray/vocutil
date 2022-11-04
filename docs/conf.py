@@ -20,7 +20,7 @@ sys.path.insert(0, os.path.abspath(".."))
 project = "vocutil"
 copyright = "2022, Jeremy A Gray"
 author = "Jeremy A Gray"
-release = "0.0.1"
+release = "0.0.2"
 
 extensions = [
     "sphinx.ext.autodoc",

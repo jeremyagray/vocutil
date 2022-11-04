@@ -93,9 +93,9 @@ required_footers = [
 authors = [
   "Jeremy A Gray <gray@flyquackswim.com>",
 ]
-description = "a Python/PDFLaTeX interface"
+description = "vocabulary utilities for education"
 name = "vocutil"
-version = "0.0.1"
+version = "0.0.2"
 license = "GPL-3.0-or-later"
 maintainers = [
   "Jeremy A Gray <gray@flyquackswim.com>",

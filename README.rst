@@ -14,7 +14,9 @@ Vocabulary utilities for educators and education platforms.
 Description
 -----------
 
-This is a collection of utilities useful for generating and manipulating vocabulary lists (words and definitions) for educational use.
+This is a collection of utilities useful for generating and
+manipulating vocabulary lists (words and definitions) for educational
+use.
 
 Installation
 ------------
@@ -29,8 +31,28 @@ If you desire a package locally built with poetry, download the
 source, change the appropriate lines in ``pyproject.toml``, and
 rebuild.
 
-Usage
------
+JSON Data Format
+----------------
+
+All glossary data is stored in a master JSON file with the following format:
+
+  {
+    "course": {
+      "title": string
+    },
+    "book": {
+      "title": string,
+      "author": string
+    },
+    "glossary": [
+      {
+        "word": string,
+        "definition": string,
+        "chapter": integer,
+        "section": integer
+      }
+    ]
+  }
 
 Copyright and License
 ---------------------

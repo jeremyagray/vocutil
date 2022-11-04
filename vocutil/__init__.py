@@ -11,3 +11,5 @@
 # ******************************************************************************
 
 """vocutil module initialization."""
+
+from .load import clean_glossary

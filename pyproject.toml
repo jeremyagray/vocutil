@@ -95,7 +95,7 @@ authors = [
 ]
 description = "vocabulary utilities for education"
 name = "vocutil"
-version = "0.0.2"
+version = "0.0.3"
 license = "GPL-3.0-or-later"
 maintainers = [
   "Jeremy A Gray <gray@flyquackswim.com>",

@@ -18,9 +18,9 @@ import sys
 sys.path.insert(0, os.path.abspath(".."))
 
 project = "vocutil"
-copyright = "2022, Jeremy A Gray"
+copyright = "2022-2023, Jeremy A Gray"
 author = "Jeremy A Gray"
-release = "0.0.2"
+release = "0.0.3"
 
 extensions = [
     "sphinx.ext.autodoc",

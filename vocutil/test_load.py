@@ -14,7 +14,7 @@
 
 import sys
 
-import pytest
+# import pytest
 
 sys.path.insert(0, "/home/gray/src/work/vocutil")
 

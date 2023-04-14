@@ -2,7 +2,7 @@
 #
 # vocutil, educational vocabulary utilities.
 #
-# Copyright 2022 Jeremy A Gray <gray@flyquackswim.com>.
+# Copyright 2022-2023 Jeremy A Gray <gray@flyquackswim.com>.
 #
 # All rights reserved.
 #
@@ -12,6 +12,9 @@
 
 """vocutil loading functions."""
 
+import csv
+
+# import html
 import json
 
 
@@ -27,7 +30,7 @@ def clean_glossary(data):
     for entry in ("title",):
         try:
             cleaned["course"][entry] = data["course"][entry]
-        except (KeyError):
+        except KeyError:
             cleaned["course"][entry] = ""
 
     # Book data.
@@ -37,7 +40,7 @@ def clean_glossary(data):
     ):
         try:
             cleaned["book"][entry] = data["book"][entry]
-        except (KeyError):
+        except KeyError:
             cleaned["book"][entry] = ""
 
     # Glossary data.
@@ -52,7 +55,7 @@ def clean_glossary(data):
             ):
                 try:
                     obj[entry] = gloss[entry]
-                except (KeyError):
+                except KeyError:
                     obj[entry] = ""
 
             cleaned["glossary"].append(obj)
@@ -60,9 +63,32 @@ def clean_glossary(data):
     return cleaned
 
 
-def load_glossary(file):
+def _load_glossary_json(file):
     """Load a glossary."""
     with open(file, "r") as f:
         data = json.load(f)
 
     return clean_glossary(data)
+
+
+def _load_glossary_csv(file, dialect="excel"):
+    """Load a glossary in CSV."""
+    with open(file, "r") as f:
+        reader = csv.reader(f, dialect)
+        data = {
+            "glossary": [],
+        }
+        for row in reader:
+            data["glossary"].append(
+                {
+                    "word": row[0],
+                    "definition": row[1],
+                }
+            )
+
+    return clean_glossary(data)
+
+
+def _load_glossary_tsv(file):
+    """Load a glossary in TSV."""
+    return _load_glossary_csv(file, dialect="excel-tab")

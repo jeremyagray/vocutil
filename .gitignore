@@ -31,3 +31,8 @@ htmlcov
 
 # Generated files.
 *.html
+
+# Data files.
+*.tsv
+*.csv
+*.json

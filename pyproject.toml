@@ -125,7 +125,7 @@ python = ">=3.8.1,<4.0"
 [tool.poetry.dev-dependencies]
 
 Sphinx = "^6"
-black = { version = "*", allow-prereleases = true }
+black = "^23"
 factory-boy = "^3.2"
 flake8 = "^6"
 flake8-docstrings = "^1"

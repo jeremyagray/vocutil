@@ -20,7 +20,7 @@ class FillInTheBlank:
 
     def __init__(self, qdata, **kwargs):
         """Initialize a fill in the item."""
-        self.item = ET.Element("item", ident=kwargs["ident"])
+        self.item = ET.Element("item", ident=str(kwargs["ident"]))
         self.itemmetadata = ET.SubElement(self.item, "itemmetadata")
         self.qtimetadata = ET.SubElement(self.itemmetadata, "qtimetadata")
         self.qtimetadatafield = ET.SubElement(self.qtimetadata, "qtimetadatafield")

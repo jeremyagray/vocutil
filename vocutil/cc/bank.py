@@ -30,13 +30,13 @@ class Bank:
         )
 
         self.bank = ET.SubElement(self.doc, "objectbank")
-        self.bank.set("ident", kwargs["ident"] if "ident" in kwargs else "")
+        self.bank.set("ident", str(kwargs["ident"]) if "ident" in kwargs else "")
 
         return
 
     def set_ident(self, ident):
         """Set the ``ident`` field of the item bank."""
         if ident is not None:
-            self.bank.set("ident", ident)
+            self.bank.set("ident", str(ident))
 
         return

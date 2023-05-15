@@ -29,15 +29,15 @@ class Assessment:
             },
         )
         self.assessment = ET.SubElement(self.doc, "assessment")
-        self.assessment.set("ident", kwargs["ident"]) if kwargs["ident"] else None
-        self.assessment.set("title", kwargs["title"]) if kwargs["title"] else None
+        self.assessment.set("ident", str(kwargs["ident"])) if "ident" in kwargs else ""
+        self.assessment.set("title", str(kwargs["title"])) if "title" in kwargs else ""
         self.qtimetadata = ET.SubElement(self.assessment, "qtimetadata")
 
         metadata = (
             ("cc_profile", "cc.exam.v0p1"),
             ("qmd_assessmenttype", "Examination"),
             ("qmd_scoretype", "Percentage"),
-            ("cc_maxattempts", kwargs["attempts"] if kwargs["attempts"] else "1"),
+            ("cc_maxattempts", kwargs["attempts"] if "attempts" in kwargs else "1"),
         )
 
         for datum in metadata:
@@ -56,12 +56,12 @@ class Assessment:
             material,
             "mattext",
             attrib={
-                "texttype": "TEXT/HTML",
+                "texttype": "text/html",
             },
         )
-        self.instructions.text = (
-            kwargs["instructions"] if kwargs["instructions"] else ""
-        )
+
+        if "instructions" in kwargs:
+            self.instructions.text = str(kwargs["instructions"])
 
         self.section = ET.SubElement(self.assessment, "section", ident="root_section")
 
@@ -70,12 +70,12 @@ class Assessment:
     def set_ident(self, ident):
         """Set the ``ident`` field of the assessment."""
         if ident is not None:
-            self.assessment.set("ident", ident)
+            self.assessment.set("ident", str(ident))
 
     def set_title(self, title):
         """Set the ``title`` field of the assessment."""
         if title is not None:
-            self.assessment.set("title", title)
+            self.assessment.set("title", str(title))
 
     def set_attempts(self, attempts):
         """Set the allowed number of attempts."""

@@ -33,7 +33,12 @@ class MultipleChoice:
         self.mattext = ET.SubElement(self.material, "mattext", texttype="text/html")
         self.mattext.text = qdata["question"]
 
-        self.response = ET.SubElement(self.presentation, "response_lid", ident=kwargs["ident"], rcardinality="Single")
+        self.response = ET.SubElement(
+            self.presentation,
+            "response_lid",
+            ident=kwargs["ident"],
+            rcardinality="Single",
+        )
         self.choices = ET.SubElement(self.response, "render_choice")
 
         correct = None
@@ -48,10 +53,21 @@ class MultipleChoice:
 
         grade = ET.SubElement(self.item, "resprocessing")
         outcomes = ET.SubElement(grade, "outcomes")
-        decvar = ET.SubElement(outcomes, "decvar", maxvalue="100", minvalue="0", varname="SCORE", vartype="Decimal")
-        cond = ET.SubElement(grade, "respcondition", attrib={
-            "continue": "No",
-        })
+        decvar = ET.SubElement(
+            outcomes,
+            "decvar",
+            maxvalue="100",
+            minvalue="0",
+            varname="SCORE",
+            vartype="Decimal",
+        )
+        cond = ET.SubElement(
+            grade,
+            "respcondition",
+            attrib={
+                "continue": "No",
+            },
+        )
         condvar = ET.SubElement(cond, "conditionvar")
         varequal = ET.SubElement(condvar, "varequal", respident=kwargs["ident"])
         varequal.text = correct

@@ -50,13 +50,8 @@ class Assessment:
         self.presentation_material = ET.SubElement(
             self.assessment, "presentation_material"
         )
-        # <flow_mat><material><mattext texttype="TEXT/HTML">&lt;p&gt;Answer the following questions about mirrors and color theory from section 15.3.&lt;/p&gt;</mattext></material></flow_mat>
-        flow_mat = ET.SubElement(
-            self.presentation_material, "flow_mat"
-        )
-        material = ET.SubElement(
-            flow_mat, "material"
-        )
+        flow_mat = ET.SubElement(self.presentation_material, "flow_mat")
+        material = ET.SubElement(flow_mat, "material")
         self.instructions = ET.SubElement(
             material,
             "mattext",
@@ -64,7 +59,9 @@ class Assessment:
                 "texttype": "TEXT/HTML",
             },
         )
-        self.instructions.text = kwargs["instructions"] if kwargs["instructions"] else ""
+        self.instructions.text = (
+            kwargs["instructions"] if kwargs["instructions"] else ""
+        )
 
         self.section = ET.SubElement(self.assessment, "section", ident="root_section")
 

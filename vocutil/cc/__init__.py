@@ -13,4 +13,5 @@
 """CC module initialization."""
 
 from .assessment import Assessment
+from .fib import FillInTheBlank
 from .mc import MultipleChoice

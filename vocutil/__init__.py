@@ -13,7 +13,6 @@
 """vocutil module initialization."""
 
 from . import cc
-
 from .dump import _dump_glossary_csv
 from .dump import _dump_glossary_tsv
 from .dump import _dumps_bank

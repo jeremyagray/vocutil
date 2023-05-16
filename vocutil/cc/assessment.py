@@ -12,6 +12,7 @@
 
 """Common Cartridge assessment."""
 
+import uuid
 import xml.etree.ElementTree as ET
 
 
@@ -20,6 +21,7 @@ class Assessment:
 
     def __init__(self, **kwargs):
         """Initialize an assessment."""
+        self.uuid = uuid.uuid4()
         self.doc = ET.Element(
             "questestinterop",
             attrib={
@@ -28,8 +30,9 @@ class Assessment:
                 "xsi:schemaLocation": "http://www.imsglobal.org/xsd/ims_qtiasiv1p2 http://www.imsglobal.org/profile/cc/ccv1p2/ccv1p2_qtiasiv1p2p1_v1p0.xsd",
             },
         )
-        self.assessment = ET.SubElement(self.doc, "assessment")
-        self.assessment.set("ident", str(kwargs["ident"])) if "ident" in kwargs else ""
+        self.assessment = ET.SubElement(
+            self.doc, "assessment", attrib={"ident": str(self.uuid)}
+        )
         self.assessment.set("title", str(kwargs["title"])) if "title" in kwargs else ""
         self.qtimetadata = ET.SubElement(self.assessment, "qtimetadata")
 
@@ -66,11 +69,6 @@ class Assessment:
         self.section = ET.SubElement(self.assessment, "section", ident="root_section")
 
         return
-
-    def set_ident(self, ident):
-        """Set the ``ident`` field of the assessment."""
-        if ident is not None:
-            self.assessment.set("ident", str(ident))
 
     def set_title(self, title):
         """Set the ``title`` field of the assessment."""

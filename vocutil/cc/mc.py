@@ -12,6 +12,7 @@
 
 """Common Cartridge multiple choice item."""
 
+import uuid
 import xml.etree.ElementTree as ET
 
 
@@ -20,7 +21,8 @@ class MultipleChoice:
 
     def __init__(self, qdata, **kwargs):
         """Initialize a multiple choice item."""
-        self.item = ET.Element("item", ident=str(kwargs["ident"]))
+        self.uuid = uuid.uuid4()
+        self.item = ET.Element("item", ident=str(self.uuid))
         self.itemmetadata = ET.SubElement(self.item, "itemmetadata")
         self.qtimetadata = ET.SubElement(self.itemmetadata, "qtimetadata")
         self.qtimetadatafield = ET.SubElement(self.qtimetadata, "qtimetadatafield")
@@ -36,14 +38,14 @@ class MultipleChoice:
         self.response = ET.SubElement(
             self.presentation,
             "response_lid",
-            ident=kwargs["ident"],
+            ident=str(self.uuid),
             rcardinality="Single",
         )
         self.choices = ET.SubElement(self.response, "render_choice")
 
         correct = None
         for i, ans in enumerate(qdata["answers"]):
-            ident = f"{kwargs['ident']}-{i}"
+            ident = f"{self.uuid}-{i}"
             choice = ET.SubElement(self.choices, "response_label", ident=ident)
             material = ET.SubElement(choice, "material")
             mattext = ET.SubElement(material, "mattext", texttype="text/plain")
@@ -69,7 +71,7 @@ class MultipleChoice:
             },
         )
         condvar = ET.SubElement(cond, "conditionvar")
-        varequal = ET.SubElement(condvar, "varequal", respident=kwargs["ident"])
+        varequal = ET.SubElement(condvar, "varequal", respident=str(self.uuid))
         varequal.text = correct
         setvar = ET.SubElement(cond, "setvar", action="Set", varname="SCORE")
         setvar.text = "100"

@@ -12,6 +12,7 @@
 
 """Common Cartridge fill-in-the-blank item."""
 
+import uuid
 import xml.etree.ElementTree as ET
 
 
@@ -20,7 +21,8 @@ class FillInTheBlank:
 
     def __init__(self, qdata, **kwargs):
         """Initialize a fill in the item."""
-        self.item = ET.Element("item", ident=str(kwargs["ident"]))
+        self.uuid = uuid.uuid4()
+        self.item = ET.Element("item", ident=str(self.uuid))
         self.itemmetadata = ET.SubElement(self.item, "itemmetadata")
         self.qtimetadata = ET.SubElement(self.itemmetadata, "qtimetadata")
         self.qtimetadatafield = ET.SubElement(self.qtimetadata, "qtimetadatafield")
@@ -37,7 +39,7 @@ class FillInTheBlank:
             self.presentation,
             "response_str",
             rcardinality="Single",
-            ident=f"fib-resp-{kwargs['ident']}",
+            ident=f"fib-resp-{str(self.uuid)}",
         )
         self.blank = ET.SubElement(self.response, "render_fib", prompt="Dashline")
 
@@ -66,7 +68,7 @@ class FillInTheBlank:
                 condvar,
                 "varequal",
                 case=qdata["case"] if qdata["case"] == "Yes" else "No",
-                respident=f"fib-resp-{kwargs['ident']}",
+                respident=f"fib-resp-{str(self.uuid)}",
             )
             varequal.text = answer
 

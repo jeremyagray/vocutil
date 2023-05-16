@@ -12,6 +12,7 @@
 
 """Common Cartridge question bank."""
 
+import uuid
 import xml.etree.ElementTree as ET
 
 
@@ -20,6 +21,7 @@ class Bank:
 
     def __init__(self, **kwargs):
         """Initialize an item bank."""
+        self.uuid = uuid.uuid4()
         self.doc = ET.Element(
             "questestinterop",
             attrib={
@@ -29,14 +31,8 @@ class Bank:
             },
         )
 
-        self.bank = ET.SubElement(self.doc, "objectbank")
-        self.bank.set("ident", str(kwargs["ident"]) if "ident" in kwargs else "")
-
-        return
-
-    def set_ident(self, ident):
-        """Set the ``ident`` field of the item bank."""
-        if ident is not None:
-            self.bank.set("ident", str(ident))
+        self.bank = ET.SubElement(
+            self.doc, "objectbank", attrib={"ident": str(self.uuid)}
+        )
 
         return

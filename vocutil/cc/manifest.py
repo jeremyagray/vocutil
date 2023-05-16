@@ -12,6 +12,7 @@
 
 """Common Cartridge manifest."""
 
+import uuid
 import xml.etree.ElementTree as ET
 
 
@@ -20,7 +21,7 @@ class Manifest:
 
     def __init__(self, **kwargs):
         """Initialize a manifest."""
-
+        self.uuid = uuid.uuid4()
         self.manifest = ET.Element(
             "manifest",
             attrib={
@@ -29,9 +30,9 @@ class Manifest:
                 "xmlns:lomimscc": "http://ltsc.ieee.org/xsd/imsccv1p2/LOM/manifest",
                 "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
                 "xsi:schemaLocation": "http://www.imsglobal.org/xsd/imsccv1p2/imscp_v1p1 http://www.imsglobal.org/profile/cc/ccv1p2/ccv1p2_imscp_v1p2_v1p0.xsd http://www.imsglobal.org/xsd/imsccv1p2/imsccauth_v1p2 http://www.imsglobal.org/profile/cc/ccv1p2/ccv1p2_imsccauth_v1p2.xsd http://ltsc.ieee.org/xsd/imsccv1p2/LOM/manifest http://www.imsglobal.org/profile/cc/ccv1p2/LOM/ccv1p2_lommanifest_v1p0.xsd http://ltsc.ieee.org/xsd/imsccv1p2/LOM/resource http://www.imsglobal.org/profile/cc/ccv1p2/LOM/ccv1p2_lomresource_v1p0.xsd http://www.imsglobal.org/xsd/ims_qtiasiv1p2 http://www.imsglobal.org/profile/cc/ccv1p2/ccv1p2_qtiasiv1p2p1_v1p0.xsd http://www.imsglobal.org/xsd/imsccv1p2/imswl_v1p2 http://www.imsglobal.org/profile/cc/ccv1p2/ccv1p2_imswl_v1p2.xsd http://www.imsglobal.org/xsd/imsccv1p2/imsdt_v1p2 http://www.imsglobal.org/profile/cc/ccv1p2/ccv1p2_imsdt_v1p2.xsd http://www.imsglobal.org/xsd/imsccv1p2/imscsmd_v1p0 http://www.imsglobal.org/profile/cc/ccv1p2/ccv1p2_imscsmd_v1p0.xsd http://www.imsglobal.org/xsd/imslticc_v1p0 http://www.imsglobal.org/xsd/lti/ltiv1p0/imslticc_v1p0p1.xsd http://www.imsglobal.org/xsd/imslticp_v1p0 http://www.imsglobal.org/xsd/lti/ltiv1p0/imslticp_v1p0.xsd http://www.imsglobal.org/xsd/imslticm_v1p0 http://www.imsglobal.org/xsd/lti/ltiv1p0/imslticm_v1p0.xsd http://www.imsglobal.org/xsd/imsbasiclti_v1p0 http://www.imsglobal.org/xsd/lti/ltiv1p0/imsbasiclti_v1p0p1.xsd",
+                "identifier": str(self.uuid),
             },
         )
-        self.manifest.set("identifier", str(kwargs["ident"]) if "ident" in kwargs else "manifest")
 
         # Cartridge metadata.
         self.metadata = ET.SubElement(self.manifest, "metadata")
@@ -48,18 +49,16 @@ class Manifest:
 
         # File and directory layout.
         self.organizations = ET.SubElement(self.manifest, "organizations")
-        self.organization = ET.SubElement(self.organizations, "organization", identifier="org", structure="rooted-hierarchy")
+        self.organization = ET.SubElement(
+            self.organizations,
+            "organization",
+            identifier="org",
+            structure="rooted-hierarchy",
+        )
         self.root = ET.SubElement(self.organization, "item", identifier="root")
 
         # File locations.
         self.resources = ET.SubElement(self.manifest, "resources")
-
-        return
-
-    def set_ident(self, ident):
-        """Set the ``ident`` field of the manifest."""
-        if ident is not None:
-            self.manifest.set("identifier", str(ident))
 
         return
 

@@ -17,6 +17,7 @@ requires = [
   "setuptools",
   "wheel",
 ]
+
 build-backend = "setuptools.build_meta"
 
 # Poetry.
@@ -124,14 +125,14 @@ python = ">=3.8.1,<4.0"
 
 [tool.poetry.dev-dependencies]
 
-Sphinx = "^6"
+Sphinx = "^7"
 black = "^23"
-factory-boy = "^3.2"
+factory-boy = "^3"
 flake8 = "^6"
 flake8-docstrings = "^1"
 isort = "^5"
 hypothesis = "^6"
-pccc = "^0.4"
+pccc = "^0"
 pre-commit = "^3"
 pyfakefs = "^5"
 pytest = "^7"

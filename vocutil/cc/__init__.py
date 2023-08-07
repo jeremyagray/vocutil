@@ -14,6 +14,7 @@
 
 from .assessment import Assessment
 from .bank import Bank
+from .cartridge import Cartridge
 from .fib import FillInTheBlank
 from .manifest import Manifest
 from .mc import MultipleChoice

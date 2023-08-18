@@ -41,4 +41,4 @@ def test_clean_glossary():
         ],
     }
 
-    assert data == vocutil.clean_glossary(data)
+    assert data == vocutil._clean_glossary(data)

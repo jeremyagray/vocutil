@@ -13,12 +13,14 @@
 """vocutil module initialization."""
 
 from . import cc
-from .dump import _dump_glossary_csv
-from .dump import _dump_glossary_tsv
-from .dump import _dumps_bank
-from .dump import _dumps_glossary_html
 from .exceptions import VocutilError
+
+# Exposed for testing.
+# from .dump import _dump_glossary_csv
+# from .dump import _dump_glossary_tsv
+# from .dump import _dumps_bank
+# from .dump import _dumps_glossary_html
+from .load import _clean_glossary
 from .load import _load_glossary_csv
 from .load import _load_glossary_json
-from .load import _load_glossary_tsv
-from .load import clean_glossary
+from .load import load_glossary

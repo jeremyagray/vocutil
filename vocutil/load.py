@@ -13,12 +13,31 @@
 """vocutil loading functions."""
 
 import csv
-
-# import html
 import json
 
+from .exceptions import VocutilError
 
-def clean_glossary(data):
+
+def load_glossary(fn):
+    """Load a glossary.
+
+    Load a glossary in vocutil JSON or word/definition CSV/TSV.
+
+    fn : str
+        The filename containing the glossary data.
+    """
+    try:
+        return _load_glossary_json(fn)
+    except json.JSONDecodeError:
+        pass
+
+    try:
+        return _load_glossary_csv(fn)
+    except csv.Error:
+        raise VocutilError("Unable to parse glossary data.")
+
+
+def _clean_glossary(data):
     """Clean a glossary."""
     cleaned = {
         "course": {},
@@ -68,16 +87,24 @@ def _load_glossary_json(file):
     with open(file, "r") as f:
         data = json.load(f)
 
-    return clean_glossary(data)
+    return _clean_glossary(data)
 
 
-def _load_glossary_csv(file, dialect="excel"):
+def _load_glossary_csv(fn):
     """Load a glossary in CSV."""
-    with open(file, "r") as f:
+    with open(fn, "r") as f:
+        # Detect CSV dialect and reset file object.
+        sniffer = csv.Sniffer()
+        dialect = sniffer.sniff(f.readline())
+        f.seek(0)
+
+        # Read CSV file and populate glossary.
         reader = csv.reader(f, dialect)
+
         data = {
             "glossary": [],
         }
+
         for row in reader:
             data["glossary"].append(
                 {
@@ -86,9 +113,4 @@ def _load_glossary_csv(file, dialect="excel"):
                 }
             )
 
-    return clean_glossary(data)
-
-
-def _load_glossary_tsv(file):
-    """Load a glossary in TSV."""
-    return _load_glossary_csv(file, dialect="excel-tab")
+    return _clean_glossary(data)

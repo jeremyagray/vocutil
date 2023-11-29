@@ -26,6 +26,23 @@ build-backend = "setuptools.build_meta"
 
 [tool]
 
+[tool.bandit.assert_used]
+
+exclude_dirs = [
+  ".git",
+  ".pytest_cache",
+  ".tox",
+  ".venv",
+  "dist",
+  "docs",
+  "htmlcov",
+  "vocutil.egg-info",
+]
+
+skips = [
+  "**/test_*.py",
+]
+
 [tool.black]
 
 line-length = 88
@@ -121,9 +138,13 @@ packages = [
 
 [tool.poetry.dependencies]
 
+Jinja2 = ">=3"
+defusedxml = ">=0"
+pyparsing = ">=3"
 python = ">=3.8.1,<4.0"
+python-docx = ">=1"
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
 
 Sphinx = "^7"
 black = "^23"
@@ -140,6 +161,8 @@ pytest-cov = "^4"
 tox = "^4"
 
 [tool.poetry.scripts]
+
+# pccc = "pccc:main"
 
 [tool.poetry.urls]
 

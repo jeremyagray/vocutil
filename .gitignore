@@ -22,6 +22,7 @@
 .pytest_cache
 .python-version
 .tox
+.venv
 __pycache__
 build
 commit

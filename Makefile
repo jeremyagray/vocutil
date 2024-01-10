@@ -2,7 +2,7 @@
 #
 # vocutil, educational vocabulary utilities.
 #
-# Copyright 2022-2023 Jeremy A Gray <gray@flyquackswim.com>.
+# Copyright 2022-2024 Jeremy A Gray <gray@flyquackswim.com>.
 #
 # All rights reserved.
 #
@@ -66,11 +66,3 @@ upload :
 .PHONY : upload-test
 upload-test :
 	python3 -m twine upload --verbose --repository testpypi dist/*
-
-.PHONY : cartridge
-cartridge :
-	./bin/fib.py ~/src/work/physical-science-hs/units/15-sound-and-light/glossary.json > ~/src/work/physical-science-hs/data/test/cid01/cid01.xml
-	(cd ~/src/work/physical-science-hs/data/test && zip -r ~/src/work/vocutil/test.imscc.zip *)
-
-requirements.txt: poetry.lock
-	./freeze.sh > $(@)

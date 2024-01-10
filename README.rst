@@ -2,7 +2,7 @@
 ..
 .. vocutil, educational vocabulary utilities.
 ..
-.. Copyright 2022-2023 Jeremy A Gray <gray@flyquackswim.com>.
+.. Copyright 2022-2024 Jeremy A Gray <gray@flyquackswim.com>.
 ..
 .. All rights reserved.
 ..
@@ -46,7 +46,7 @@ rebuild.
 JSON Data Format
 ----------------
 
-All glossary data is stored in a master JSON file with the following format:
+All glossary data is stored in a master JSON file with the following format::
 
   {
     "course": {
@@ -73,7 +73,7 @@ SPDX-License-Identifier: `GPL-3.0-or-later <https://spdx.org/licenses/GPL-3.0-or
 
 vocutil, educational vocabulary utilities.
 
-Copyright (C) 2022 `Jeremy A Gray <gray@flyquackswim.com>`_.
+Copyright (C) 2022-2024 `Jeremy A Gray <gray@flyquackswim.com>`_.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

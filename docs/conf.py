@@ -2,7 +2,7 @@
 #
 # vocutil, educational vocabulary utilities.
 #
-# Copyright 2022-2023 Jeremy A Gray <gray@flyquackswim.com>.
+# Copyright 2022-2024 Jeremy A Gray <gray@flyquackswim.com>.
 #
 # All rights reserved.
 #
@@ -18,7 +18,7 @@ import sys
 sys.path.insert(0, os.path.abspath(".."))
 
 project = "vocutil"
-copyright = "2022-2023, Jeremy A Gray"
+copyright = "2022-2024, Jeremy A Gray"
 author = "Jeremy A Gray"
 release = "0.0.3"
 

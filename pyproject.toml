@@ -2,7 +2,7 @@
 #
 # vocutil, educational vocabulary utilities.
 #
-# Copyright 2022-2023 Jeremy A Gray <gray@flyquackswim.com>.
+# Copyright 2022-2024 Jeremy A Gray <gray@flyquackswim.com>.
 #
 # All rights reserved.
 #
@@ -38,15 +38,16 @@ skips = [
 [tool.black]
 
 line-length = 88
-target-version = ['py38']
 include = '\.pyi?$'
 exclude = '''
-
 (
   /(
     \.git
     | \.pytest_cache
+    | \.tox
+    | \.venv
     | __pycache__
+    | dist
     | htmlcov
   )/
 )

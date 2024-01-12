@@ -104,9 +104,9 @@ required_footers = [
 authors = [
   "Jeremy A Gray <gray@flyquackswim.com>",
 ]
-description = "vocabulary utilities for education"
+description = "educational vocabulary utilities"
 name = "vocutil"
-version = "0.0.3"
+version = "0.0.4"
 license = "GPL-3.0-or-later"
 maintainers = [
   "Jeremy A Gray <gray@flyquackswim.com>",
@@ -116,7 +116,7 @@ homepage = "https://github.com/jeremyagray/vocutil"
 repository = "https://github.com/jeremyagray/vocutil"
 
 classifiers = [
-  "Development Status :: 3 - Alpha",
+  "Development Status :: 1 - Planning",
   "Intended Audience :: Education",
   "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
   "Programming Language :: Python :: 3.8",

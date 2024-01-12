@@ -2,7 +2,7 @@
 #
 # vocutil, educational vocabulary utilities.
 #
-# Copyright 2022-2023 Jeremy A Gray <gray@flyquackswim.com>.
+# Copyright 2022-2024 Jeremy A Gray <gray@flyquackswim.com>.
 #
 # All rights reserved.
 #
@@ -14,6 +14,7 @@
 
 import csv
 import json
+import sys
 
 from .exceptions import VocutilError
 
@@ -28,7 +29,8 @@ def load_glossary(fn):
     """
     try:
         return _load_glossary_json(fn)
-    except json.JSONDecodeError:
+    except json.JSONDecodeError as e:
+        print(f"file: {fn} error: {e}", file=sys.stderr)
         pass
 
     try:

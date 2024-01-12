@@ -2,7 +2,7 @@
 #
 # vocutil, educational vocabulary utilities.
 #
-# Copyright 2022 Jeremy A Gray <gray@flyquackswim.com>.
+# Copyright 2022-2024 Jeremy A Gray <gray@flyquackswim.com>.
 #
 # All rights reserved.
 #
@@ -13,7 +13,8 @@
 """Common Cartridge multiple choice item."""
 
 import uuid
-import xml.etree.ElementTree as ET
+
+import defusedxml.ElementTree as ET
 
 
 class MultipleChoice:
@@ -55,7 +56,7 @@ class MultipleChoice:
 
         grade = ET.SubElement(self.item, "resprocessing")
         outcomes = ET.SubElement(grade, "outcomes")
-        decvar = ET.SubElement(
+        ET.SubElement(
             outcomes,
             "decvar",
             maxvalue="100",

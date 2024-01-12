@@ -2,7 +2,7 @@
 #
 # vocutil, educational vocabulary utilities.
 #
-# Copyright 2022-2023 Jeremy A Gray <gray@flyquackswim.com>.
+# Copyright 2022-2024 Jeremy A Gray <gray@flyquackswim.com>.
 #
 # All rights reserved.
 #
@@ -12,7 +12,7 @@
 
 """Common Cartridge fill-in-the-blank item."""
 
-import xml.etree.ElementTree as ET
+import defusedxml.ElementTree as ET
 
 from .item import Item
 
@@ -50,7 +50,7 @@ class FillInTheBlank(Item):
 
         grade = ET.SubElement(self.item, "resprocessing")
         outcomes = ET.SubElement(grade, "outcomes")
-        decvar = ET.SubElement(
+        ET.SubElement(
             outcomes,
             "decvar",
             maxvalue="100",
@@ -83,7 +83,7 @@ class FillInTheBlank(Item):
         return
 
     def to_xml(self):
-        """Initialize a fill in the item."""
+        """Initialize a fill in the blank item."""
         item = ET.Element("item", ident=str(self.uuid))
         itemmetadata = ET.SubElement(item, "itemmetadata")
         qtimetadata = ET.SubElement(itemmetadata, "qtimetadata")
@@ -103,11 +103,11 @@ class FillInTheBlank(Item):
             rcardinality="Single",
             ident=f"fib-resp-{str(self.uuid)}",
         )
-        blank = ET.SubElement(response, "render_fib", prompt="Dashline")
+        ET.SubElement(response, "render_fib", prompt="Dashline")
 
         grade = ET.SubElement(item, "resprocessing")
         outcomes = ET.SubElement(grade, "outcomes")
-        decvar = ET.SubElement(
+        ET.SubElement(
             outcomes,
             "decvar",
             maxvalue="100",

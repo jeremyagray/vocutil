@@ -2,7 +2,7 @@
 #
 # vocutil, educational vocabulary utilities.
 #
-# Copyright 2022-2023 Jeremy A Gray <gray@flyquackswim.com>.
+# Copyright 2022-2024 Jeremy A Gray <gray@flyquackswim.com>.
 #
 # All rights reserved.
 #
@@ -13,7 +13,8 @@
 """Common Cartridge question bank."""
 
 import uuid
-import xml.etree.ElementTree as ET
+
+import defusedxml.ElementTree as ET
 
 
 class Bank:
@@ -27,7 +28,7 @@ class Bank:
             attrib={
                 "xmlns": "http://www.imsglobal.org/xsd/ims_qtiasiv1p2",
                 "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
-                "xsi:schemaLocation": "http://www.imsglobal.org/xsd/ims_qtiasiv1p2 http://www.imsglobal.org/profile/cc/ccv1p2/ccv1p2_qtiasiv1p2p1_v1p0.xsd",
+                "xsi:schemaLocation": "http://www.imsglobal.org/xsd/ims_qtiasiv1p2 http://www.imsglobal.org/profile/cc/ccv1p2/ccv1p2_qtiasiv1p2p1_v1p0.xsd",  # noqa: E501
             },
         )
 

@@ -2,7 +2,7 @@
 #
 # vocutil, educational vocabulary utilities.
 #
-# Copyright 2022-2023 Jeremy A Gray <gray@flyquackswim.com>.
+# Copyright 2022-2024 Jeremy A Gray <gray@flyquackswim.com>.
 #
 # All rights reserved.
 #
@@ -13,7 +13,8 @@
 """Common Cartridge manifest."""
 
 import uuid
-import xml.etree.ElementTree as ET
+
+import defusedxml.ElementTree as ET
 
 
 class Manifest:
@@ -29,7 +30,7 @@ class Manifest:
                 "xmlns:lom": "http://ltsc.ieee.org/xsd/imsccv1p2/LOM/resource",
                 "xmlns:lomimscc": "http://ltsc.ieee.org/xsd/imsccv1p2/LOM/manifest",
                 "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
-                "xsi:schemaLocation": "http://www.imsglobal.org/xsd/imsccv1p2/imscp_v1p1 http://www.imsglobal.org/profile/cc/ccv1p2/ccv1p2_imscp_v1p2_v1p0.xsd http://www.imsglobal.org/xsd/imsccv1p2/imsccauth_v1p2 http://www.imsglobal.org/profile/cc/ccv1p2/ccv1p2_imsccauth_v1p2.xsd http://ltsc.ieee.org/xsd/imsccv1p2/LOM/manifest http://www.imsglobal.org/profile/cc/ccv1p2/LOM/ccv1p2_lommanifest_v1p0.xsd http://ltsc.ieee.org/xsd/imsccv1p2/LOM/resource http://www.imsglobal.org/profile/cc/ccv1p2/LOM/ccv1p2_lomresource_v1p0.xsd http://www.imsglobal.org/xsd/ims_qtiasiv1p2 http://www.imsglobal.org/profile/cc/ccv1p2/ccv1p2_qtiasiv1p2p1_v1p0.xsd http://www.imsglobal.org/xsd/imsccv1p2/imswl_v1p2 http://www.imsglobal.org/profile/cc/ccv1p2/ccv1p2_imswl_v1p2.xsd http://www.imsglobal.org/xsd/imsccv1p2/imsdt_v1p2 http://www.imsglobal.org/profile/cc/ccv1p2/ccv1p2_imsdt_v1p2.xsd http://www.imsglobal.org/xsd/imsccv1p2/imscsmd_v1p0 http://www.imsglobal.org/profile/cc/ccv1p2/ccv1p2_imscsmd_v1p0.xsd http://www.imsglobal.org/xsd/imslticc_v1p0 http://www.imsglobal.org/xsd/lti/ltiv1p0/imslticc_v1p0p1.xsd http://www.imsglobal.org/xsd/imslticp_v1p0 http://www.imsglobal.org/xsd/lti/ltiv1p0/imslticp_v1p0.xsd http://www.imsglobal.org/xsd/imslticm_v1p0 http://www.imsglobal.org/xsd/lti/ltiv1p0/imslticm_v1p0.xsd http://www.imsglobal.org/xsd/imsbasiclti_v1p0 http://www.imsglobal.org/xsd/lti/ltiv1p0/imsbasiclti_v1p0p1.xsd",
+                "xsi:schemaLocation": "http://www.imsglobal.org/xsd/imsccv1p2/imscp_v1p1 http://www.imsglobal.org/profile/cc/ccv1p2/ccv1p2_imscp_v1p2_v1p0.xsd http://www.imsglobal.org/xsd/imsccv1p2/imsccauth_v1p2 http://www.imsglobal.org/profile/cc/ccv1p2/ccv1p2_imsccauth_v1p2.xsd http://ltsc.ieee.org/xsd/imsccv1p2/LOM/manifest http://www.imsglobal.org/profile/cc/ccv1p2/LOM/ccv1p2_lommanifest_v1p0.xsd http://ltsc.ieee.org/xsd/imsccv1p2/LOM/resource http://www.imsglobal.org/profile/cc/ccv1p2/LOM/ccv1p2_lomresource_v1p0.xsd http://www.imsglobal.org/xsd/ims_qtiasiv1p2 http://www.imsglobal.org/profile/cc/ccv1p2/ccv1p2_qtiasiv1p2p1_v1p0.xsd http://www.imsglobal.org/xsd/imsccv1p2/imswl_v1p2 http://www.imsglobal.org/profile/cc/ccv1p2/ccv1p2_imswl_v1p2.xsd http://www.imsglobal.org/xsd/imsccv1p2/imsdt_v1p2 http://www.imsglobal.org/profile/cc/ccv1p2/ccv1p2_imsdt_v1p2.xsd http://www.imsglobal.org/xsd/imsccv1p2/imscsmd_v1p0 http://www.imsglobal.org/profile/cc/ccv1p2/ccv1p2_imscsmd_v1p0.xsd http://www.imsglobal.org/xsd/imslticc_v1p0 http://www.imsglobal.org/xsd/lti/ltiv1p0/imslticc_v1p0p1.xsd http://www.imsglobal.org/xsd/imslticp_v1p0 http://www.imsglobal.org/xsd/lti/ltiv1p0/imslticp_v1p0.xsd http://www.imsglobal.org/xsd/imslticm_v1p0 http://www.imsglobal.org/xsd/lti/ltiv1p0/imslticm_v1p0.xsd http://www.imsglobal.org/xsd/imsbasiclti_v1p0 http://www.imsglobal.org/xsd/lti/ltiv1p0/imsbasiclti_v1p0p1.xsd",  # noqa: E501
                 "identifier": str(self.uuid),
             },
         )
@@ -62,6 +63,10 @@ class Manifest:
 
         return
 
+    def __str__(self):
+        """Stringify myself."""
+        return ET.tostring(self.manifest, encoding="unicode", xml_declaration=True)
+
     def set_title(self, title):
         """Set the ``title`` tag of the manifest."""
         if title is not None:
@@ -69,21 +74,7 @@ class Manifest:
 
         return
 
-    def append(self):
+    def append(self, res):
         """Append resources to the manifest."""
-        # Add items to ``self.root`` in format:
-        # <item identifier="id01" identifierref="cid01"><title>Chapter 15 Vocabulary FIB</title></item>
-        # Tag:  item
-        # Subtags:  title
-        # Attributes:
-        #   identifier:  unique identifier for the organizational item
-        #   identifierref:  identifier of the associated resource
-
-        # Add files to ``self.resources`` with correct type in format:
-        # ``identifier`` is the unique identifier for the file and
-        # Schoology uses it for the folder and file name as well.  The
-        # type should be one of the following values:
-        # <resource identifier="cid01" type="imsqti_xmlv1p2/imscc_xmlv1p2/question-bank"><metadata/><file href="cid01/cid01.xml"/></resource>
-        # <resource identifier="ccres0000001" type="webcontent" href="ccres0000001/sound-and-light.pdf"><metadata/><file href="ccres0000001/sound-and-light.pdf"/></resource>
-        # <resource identifier="ccres0000002" type="webcontent" href="ccres0000002/ccres0000002.html" intendeduse="assignment"><metadata/><file href="ccres0000002/ccres0000002.html"/></resource>
-        # <resource identifier="ccres0000003" type="imsqti_xmlv1p2/imscc_xmlv1p2/assessment"><metadata/><file href="ccres0000003/ccres0000003.xml"/></resource>
+        self.root.append(res.item)
+        self.resources.append(res.resource)

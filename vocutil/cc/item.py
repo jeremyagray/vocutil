@@ -2,7 +2,7 @@
 #
 # vocutil, educational vocabulary utilities.
 #
-# Copyright 2022-2023 Jeremy A Gray <gray@flyquackswim.com>.
+# Copyright 2022-2024 Jeremy A Gray <gray@flyquackswim.com>.
 #
 # All rights reserved.
 #
@@ -13,7 +13,6 @@
 """Common Cartridge item."""
 
 import uuid
-import xml.etree.ElementTree as ET
 
 
 class Item:

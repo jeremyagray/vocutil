@@ -13,8 +13,8 @@
 """Common Cartridge multiple choice item."""
 
 import uuid
-
-import defusedxml.ElementTree as ET
+from xml.etree.ElementTree import Element as ETElement  # nosec B405
+from xml.etree.ElementTree import SubElement as ETSubElement  # nosec B405
 
 
 class MultipleChoice:
@@ -23,40 +23,40 @@ class MultipleChoice:
     def __init__(self, qdata, **kwargs):
         """Initialize a multiple choice item."""
         self.uuid = uuid.uuid4()
-        self.item = ET.Element("item", ident=str(self.uuid))
-        self.itemmetadata = ET.SubElement(self.item, "itemmetadata")
-        self.qtimetadata = ET.SubElement(self.itemmetadata, "qtimetadata")
-        self.qtimetadatafield = ET.SubElement(self.qtimetadata, "qtimetadatafield")
-        self.fieldlabel = ET.SubElement(self.qtimetadatafield, "fieldlabel")
+        self.item = ETElement("item", ident=str(self.uuid))
+        self.itemmetadata = ETSubElement(self.item, "itemmetadata")
+        self.qtimetadata = ETSubElement(self.itemmetadata, "qtimetadata")
+        self.qtimetadatafield = ETSubElement(self.qtimetadata, "qtimetadatafield")
+        self.fieldlabel = ETSubElement(self.qtimetadatafield, "fieldlabel")
         self.fieldlabel.text = "cc_profile"
-        self.fieldentry = ET.SubElement(self.qtimetadatafield, "fieldentry")
+        self.fieldentry = ETSubElement(self.qtimetadatafield, "fieldentry")
         self.fieldentry.text = "cc.multiple_choice.v0p1"
-        self.presentation = ET.SubElement(self.item, "presentation")
-        self.material = ET.SubElement(self.presentation, "material")
-        self.mattext = ET.SubElement(self.material, "mattext", texttype="text/html")
+        self.presentation = ETSubElement(self.item, "presentation")
+        self.material = ETSubElement(self.presentation, "material")
+        self.mattext = ETSubElement(self.material, "mattext", texttype="text/html")
         self.mattext.text = qdata["question"]
 
-        self.response = ET.SubElement(
+        self.response = ETSubElement(
             self.presentation,
             "response_lid",
             ident=str(self.uuid),
             rcardinality="Single",
         )
-        self.choices = ET.SubElement(self.response, "render_choice")
+        self.choices = ETSubElement(self.response, "render_choice")
 
         correct = None
         for i, ans in enumerate(qdata["answers"]):
             ident = f"{self.uuid}-{i}"
-            choice = ET.SubElement(self.choices, "response_label", ident=ident)
-            material = ET.SubElement(choice, "material")
-            mattext = ET.SubElement(material, "mattext", texttype="text/plain")
+            choice = ETSubElement(self.choices, "response_label", ident=ident)
+            material = ETSubElement(choice, "material")
+            mattext = ETSubElement(material, "mattext", texttype="text/plain")
             mattext.text = ans["answer"]
             if ans["correct"]:
                 correct = ident
 
-        grade = ET.SubElement(self.item, "resprocessing")
-        outcomes = ET.SubElement(grade, "outcomes")
-        ET.SubElement(
+        grade = ETSubElement(self.item, "resprocessing")
+        outcomes = ETSubElement(grade, "outcomes")
+        ETSubElement(
             outcomes,
             "decvar",
             maxvalue="100",
@@ -64,17 +64,17 @@ class MultipleChoice:
             varname="SCORE",
             vartype="Decimal",
         )
-        cond = ET.SubElement(
+        cond = ETSubElement(
             grade,
             "respcondition",
             attrib={
                 "continue": "No",
             },
         )
-        condvar = ET.SubElement(cond, "conditionvar")
-        varequal = ET.SubElement(condvar, "varequal", respident=str(self.uuid))
+        condvar = ETSubElement(cond, "conditionvar")
+        varequal = ETSubElement(condvar, "varequal", respident=str(self.uuid))
         varequal.text = correct
-        setvar = ET.SubElement(cond, "setvar", action="Set", varname="SCORE")
+        setvar = ETSubElement(cond, "setvar", action="Set", varname="SCORE")
         setvar.text = "100"
 
         return

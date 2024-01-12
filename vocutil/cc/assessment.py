@@ -13,8 +13,8 @@
 """Common Cartridge assessment."""
 
 import uuid
-
-import defusedxml.ElementTree as ET
+from xml.etree.ElementTree import Element as ETElement  # nosec B405
+from xml.etree.ElementTree import SubElement as ETSubElement  # nosec B405
 
 
 class Assessment:
@@ -23,7 +23,7 @@ class Assessment:
     def __init__(self, **kwargs):
         """Initialize an assessment."""
         self.uuid = uuid.uuid4()
-        self.doc = ET.Element(
+        self.doc = ETElement(
             "questestinterop",
             attrib={
                 "xmlns": "http://www.imsglobal.org/xsd/ims_qtiasiv1p2",
@@ -31,11 +31,11 @@ class Assessment:
                 "xsi:schemaLocation": "http://www.imsglobal.org/xsd/ims_qtiasiv1p2 http://www.imsglobal.org/profile/cc/ccv1p2/ccv1p2_qtiasiv1p2p1_v1p0.xsd",  # noqa: E501
             },
         )
-        self.assessment = ET.SubElement(
+        self.assessment = ETSubElement(
             self.doc, "assessment", attrib={"ident": str(self.uuid)}
         )
         self.assessment.set("title", str(kwargs["title"])) if "title" in kwargs else ""
-        self.qtimetadata = ET.SubElement(self.assessment, "qtimetadata")
+        self.qtimetadata = ETSubElement(self.assessment, "qtimetadata")
 
         metadata = (
             ("cc_profile", "cc.exam.v0p1"),
@@ -45,18 +45,18 @@ class Assessment:
         )
 
         for datum in metadata:
-            qtimetadatafield = ET.SubElement(self.qtimetadata, "qtimetadatafield")
-            fieldlabel = ET.SubElement(qtimetadatafield, "fieldlabel")
+            qtimetadatafield = ETSubElement(self.qtimetadata, "qtimetadatafield")
+            fieldlabel = ETSubElement(qtimetadatafield, "fieldlabel")
             fieldlabel.text = datum[0]
-            fieldentry = ET.SubElement(qtimetadatafield, "fieldentry")
+            fieldentry = ETSubElement(qtimetadatafield, "fieldentry")
             fieldentry.text = datum[1]
 
-        self.presentation_material = ET.SubElement(
+        self.presentation_material = ETSubElement(
             self.assessment, "presentation_material"
         )
-        flow_mat = ET.SubElement(self.presentation_material, "flow_mat")
-        material = ET.SubElement(flow_mat, "material")
-        self.instructions = ET.SubElement(
+        flow_mat = ETSubElement(self.presentation_material, "flow_mat")
+        material = ETSubElement(flow_mat, "material")
+        self.instructions = ETSubElement(
             material,
             "mattext",
             attrib={
@@ -67,7 +67,7 @@ class Assessment:
         if "instructions" in kwargs:
             self.instructions.text = str(kwargs["instructions"])
 
-        self.section = ET.SubElement(self.assessment, "section", ident="root_section")
+        self.section = ETSubElement(self.assessment, "section", ident="root_section")
 
         return
 

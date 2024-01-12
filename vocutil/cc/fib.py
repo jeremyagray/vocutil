@@ -12,6 +12,9 @@
 
 """Common Cartridge fill-in-the-blank item."""
 
+from xml.etree.ElementTree import Element as ETElement  # nosec B405
+from xml.etree.ElementTree import SubElement as ETSubElement  # nosec B405
+
 import defusedxml.ElementTree as ET
 
 from .item import Item
@@ -27,30 +30,30 @@ class FillInTheBlank(Item):
         self.answers = answers
         self.case = case if case == "Yes" else "No"
 
-        self.item = ET.Element("item", ident=str(self.uuid))
-        self.itemmetadata = ET.SubElement(self.item, "itemmetadata")
-        self.qtimetadata = ET.SubElement(self.itemmetadata, "qtimetadata")
-        self.qtimetadatafield = ET.SubElement(self.qtimetadata, "qtimetadatafield")
-        self.fieldlabel = ET.SubElement(self.qtimetadatafield, "fieldlabel")
+        self.item = ETElement("item", ident=str(self.uuid))
+        self.itemmetadata = ETSubElement(self.item, "itemmetadata")
+        self.qtimetadata = ETSubElement(self.itemmetadata, "qtimetadata")
+        self.qtimetadatafield = ETSubElement(self.qtimetadata, "qtimetadatafield")
+        self.fieldlabel = ETSubElement(self.qtimetadatafield, "fieldlabel")
         self.fieldlabel.text = "cc_profile"
-        self.fieldentry = ET.SubElement(self.qtimetadatafield, "fieldentry")
+        self.fieldentry = ETSubElement(self.qtimetadatafield, "fieldentry")
         self.fieldentry.text = "cc.fib.v0p1"
-        self.presentation = ET.SubElement(self.item, "presentation")
-        self.material = ET.SubElement(self.presentation, "material")
-        self.mattext = ET.SubElement(self.material, "mattext", texttype="text/html")
+        self.presentation = ETSubElement(self.item, "presentation")
+        self.material = ETSubElement(self.presentation, "material")
+        self.mattext = ETSubElement(self.material, "mattext", texttype="text/html")
         self.mattext.text = self.question
 
-        self.response = ET.SubElement(
+        self.response = ETSubElement(
             self.presentation,
             "response_str",
             rcardinality="Single",
             ident=f"fib-resp-{str(self.uuid)}",
         )
-        self.blank = ET.SubElement(self.response, "render_fib", prompt="Dashline")
+        self.blank = ETSubElement(self.response, "render_fib", prompt="Dashline")
 
-        grade = ET.SubElement(self.item, "resprocessing")
-        outcomes = ET.SubElement(grade, "outcomes")
-        ET.SubElement(
+        grade = ETSubElement(self.item, "resprocessing")
+        outcomes = ETSubElement(grade, "outcomes")
+        ETSubElement(
             outcomes,
             "decvar",
             maxvalue="100",
@@ -58,18 +61,18 @@ class FillInTheBlank(Item):
             varname="SCORE",
             vartype="Decimal",
         )
-        cond = ET.SubElement(
+        cond = ETSubElement(
             grade,
             "respcondition",
             attrib={
                 "continue": "No",
             },
         )
-        condvar = ET.SubElement(cond, "conditionvar")
+        condvar = ETSubElement(cond, "conditionvar")
 
         # Set possible correct answers.
         for answer in self.answers:
-            varequal = ET.SubElement(
+            varequal = ETSubElement(
                 condvar,
                 "varequal",
                 case=self.case,
@@ -77,37 +80,37 @@ class FillInTheBlank(Item):
             )
             varequal.text = answer
 
-        setvar = ET.SubElement(cond, "setvar", action="Set", varname="SCORE")
+        setvar = ETSubElement(cond, "setvar", action="Set", varname="SCORE")
         setvar.text = "100"
 
         return
 
     def to_xml(self):
         """Initialize a fill in the blank item."""
-        item = ET.Element("item", ident=str(self.uuid))
-        itemmetadata = ET.SubElement(item, "itemmetadata")
-        qtimetadata = ET.SubElement(itemmetadata, "qtimetadata")
-        qtimetadatafield = ET.SubElement(qtimetadata, "qtimetadatafield")
-        fieldlabel = ET.SubElement(qtimetadatafield, "fieldlabel")
+        item = ETElement("item", ident=str(self.uuid))
+        itemmetadata = ETSubElement(item, "itemmetadata")
+        qtimetadata = ETSubElement(itemmetadata, "qtimetadata")
+        qtimetadatafield = ETSubElement(qtimetadata, "qtimetadatafield")
+        fieldlabel = ETSubElement(qtimetadatafield, "fieldlabel")
         fieldlabel.text = "cc_profile"
-        fieldentry = ET.SubElement(qtimetadatafield, "fieldentry")
+        fieldentry = ETSubElement(qtimetadatafield, "fieldentry")
         fieldentry.text = "cc.fib.v0p1"
-        presentation = ET.SubElement(item, "presentation")
-        material = ET.SubElement(presentation, "material")
-        mattext = ET.SubElement(material, "mattext", texttype="text/html")
+        presentation = ETSubElement(item, "presentation")
+        material = ETSubElement(presentation, "material")
+        mattext = ETSubElement(material, "mattext", texttype="text/html")
         mattext.text = self.question
 
-        response = ET.SubElement(
+        response = ETSubElement(
             presentation,
             "response_str",
             rcardinality="Single",
             ident=f"fib-resp-{str(self.uuid)}",
         )
-        ET.SubElement(response, "render_fib", prompt="Dashline")
+        ETSubElement(response, "render_fib", prompt="Dashline")
 
-        grade = ET.SubElement(item, "resprocessing")
-        outcomes = ET.SubElement(grade, "outcomes")
-        ET.SubElement(
+        grade = ETSubElement(item, "resprocessing")
+        outcomes = ETSubElement(grade, "outcomes")
+        ETSubElement(
             outcomes,
             "decvar",
             maxvalue="100",
@@ -115,18 +118,18 @@ class FillInTheBlank(Item):
             varname="SCORE",
             vartype="Decimal",
         )
-        cond = ET.SubElement(
+        cond = ETSubElement(
             grade,
             "respcondition",
             attrib={
                 "continue": "No",
             },
         )
-        condvar = ET.SubElement(cond, "conditionvar")
+        condvar = ETSubElement(cond, "conditionvar")
 
         # Set possible correct answers.
         for answer in self.answers:
-            varequal = ET.SubElement(
+            varequal = ETSubElement(
                 condvar,
                 "varequal",
                 case=self.case,
@@ -134,7 +137,7 @@ class FillInTheBlank(Item):
             )
             varequal.text = answer
 
-        setvar = ET.SubElement(cond, "setvar", action="Set", varname="SCORE")
+        setvar = ETSubElement(cond, "setvar", action="Set", varname="SCORE")
         setvar.text = "100"
 
         return ET.tostring(item, encoding="unicode")

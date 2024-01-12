@@ -13,8 +13,8 @@
 """Common Cartridge question bank."""
 
 import uuid
-
-import defusedxml.ElementTree as ET
+from xml.etree.ElementTree import Element as ETElement  # nosec B405
+from xml.etree.ElementTree import SubElement as ETSubElement  # nosec B405
 
 
 class Bank:
@@ -23,7 +23,7 @@ class Bank:
     def __init__(self, **kwargs):
         """Initialize an item bank."""
         self.uuid = uuid.uuid4()
-        self.doc = ET.Element(
+        self.doc = ETElement(
             "questestinterop",
             attrib={
                 "xmlns": "http://www.imsglobal.org/xsd/ims_qtiasiv1p2",
@@ -32,7 +32,7 @@ class Bank:
             },
         )
 
-        self.bank = ET.SubElement(
+        self.bank = ETSubElement(
             self.doc, "objectbank", attrib={"ident": str(self.uuid)}
         )
 

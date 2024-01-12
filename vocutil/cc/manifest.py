@@ -13,6 +13,8 @@
 """Common Cartridge manifest."""
 
 import uuid
+from xml.etree.ElementTree import Element as ETElement  # nosec B405
+from xml.etree.ElementTree import SubElement as ETSubElement  # nosec B405
 
 import defusedxml.ElementTree as ET
 
@@ -23,7 +25,7 @@ class Manifest:
     def __init__(self, **kwargs):
         """Initialize a manifest."""
         self.uuid = uuid.uuid4()
-        self.manifest = ET.Element(
+        self.manifest = ETElement(
             "manifest",
             attrib={
                 "xmlns": "http://www.imsglobal.org/xsd/imsccv1p2/imscp_v1p1",
@@ -36,30 +38,30 @@ class Manifest:
         )
 
         # Cartridge metadata.
-        self.metadata = ET.SubElement(self.manifest, "metadata")
-        schema = ET.SubElement(self.metadata, "schema")
+        self.metadata = ETSubElement(self.manifest, "metadata")
+        schema = ETSubElement(self.metadata, "schema")
         schema.text = "IMS Common Cartridge"
-        schemaversion = ET.SubElement(self.metadata, "schemaversion")
+        schemaversion = ETSubElement(self.metadata, "schemaversion")
         schemaversion.text = "1.2.0"
-        lom = ET.SubElement(self.metadata, "lomimscc:lom")
-        general = ET.SubElement(lom, "lomimscc:general")
-        title = ET.SubElement(general, "lomimscc:title")
-        self.title = ET.SubElement(title, "lomimscc:string")
+        lom = ETSubElement(self.metadata, "lomimscc:lom")
+        general = ETSubElement(lom, "lomimscc:general")
+        title = ETSubElement(general, "lomimscc:title")
+        self.title = ETSubElement(title, "lomimscc:string")
         if "title" in kwargs:
             self.title.text = str(kwargs["title"])
 
         # File and directory layout.
-        self.organizations = ET.SubElement(self.manifest, "organizations")
-        self.organization = ET.SubElement(
+        self.organizations = ETSubElement(self.manifest, "organizations")
+        self.organization = ETSubElement(
             self.organizations,
             "organization",
             identifier="org",
             structure="rooted-hierarchy",
         )
-        self.root = ET.SubElement(self.organization, "item", identifier="root")
+        self.root = ETSubElement(self.organization, "item", identifier="root")
 
         # File locations.
-        self.resources = ET.SubElement(self.manifest, "resources")
+        self.resources = ETSubElement(self.manifest, "resources")
 
         return
 

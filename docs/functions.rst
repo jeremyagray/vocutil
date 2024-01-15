@@ -10,17 +10,13 @@
 ..
 .. *****************************************************************************
 
-=========
-Functions
-=========
+===========
+ Functions
+===========
 
 .. toctree::
    :maxdepth: 2
 
-Not implemented.
-
-..
-   pccc.main()
-   -----------
-
-   .. autofunction:: pccc.main
+.. autofunction:: vocutil._load_testgen_file
+.. autofunction:: vocutil._parse_testgen_mc
+.. autofunction:: vocutil.load_testgen_mc

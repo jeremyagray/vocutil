@@ -36,12 +36,14 @@ def _maybe_write_file_from_template(template, path, data, latex=False):
             line_comment_prefix="%#",
             trim_blocks=True,
             autoescape=True,
+            keep_trailing_newline=True,
         )
     else:
         jinja = Environment(
             loader=FileSystemLoader("templates"),
             trim_blocks=True,
             autoescape=True,
+            keep_trailing_newline=True,
         )
 
     try:
@@ -89,7 +91,11 @@ def maybe_create_cartridge_generator(dest, unit, prefix):
     _maybe_write_file_from_template(
         "cartridge.py",
         dest / f"{prefix}-cartridge.py",
-        {"unit": unit, "prefix": prefix},
+        {
+            "unit": unit,
+            "prefix": prefix,
+            "chapter": str(dest).split("-")[0].lstrip("0"),
+        },
         latex=False,
     )
 

@@ -140,7 +140,7 @@ python-docx = ">=1"
 
 [tool.poetry.group.dev.dependencies]
 
-black = "^23"
+black = "^24"
 factory-boy = "^3"
 flake8 = "^7"
 flake8-docstrings = "^1"
@@ -149,7 +149,7 @@ isort = "^5"
 pccc = "^0"
 pre-commit = "^3"
 pyfakefs = "^5"
-pytest = "^7"
+pytest = "^8"
 pytest-cov = "^4"
 sphinx = "^7"
 tox = "^4"

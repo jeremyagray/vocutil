@@ -53,6 +53,13 @@ exclude = '''
 )
 '''
 
+[tool.doc8]
+
+ignore-path = [
+  ".tox",
+  ".venv",
+]
+
 [tool.isort]
 
 ensure_newline_before_comments = true

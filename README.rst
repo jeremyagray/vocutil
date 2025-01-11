@@ -1,4 +1,4 @@
-.. *****************************************************************************
+.. ***************************************************************************
 ..
 .. vocutil, educational vocabulary utilities.
 ..
@@ -8,10 +8,11 @@
 ..
 .. SPDX-License-Identifier: GPL-3.0-or-later
 ..
-.. *****************************************************************************
+.. ***************************************************************************
 
-vocutil
-=======
+=========
+ vocutil
+=========
 
 Vocabulary utilities for educators and education platforms.
 
@@ -24,14 +25,39 @@ Vocabulary utilities for educators and education platforms.
       :alt: Documentation Status
 
 Description
------------
+===========
 
 This is a collection of utilities useful for generating and
-manipulating vocabulary lists (words and definitions) for educational
-use.
+manipulating materials for educational use.  Originally, the goal was
+to automate creation of vocabulary quizzes, practice, and study
+materials but has expanded significantly.
+
+The most useful part of the code is the interface to
+`Instructional Management System Common Cartridge (IMSCC) <https://www.imsglobal.org/cc/index.html>`_
+instructional materials files (cartridges) which are used to export
+and import data from and between learning management systems (LMS).
+This interface can both read and write cartridges, allowing users to
+create or customize their instructional content outside the usually
+limited confines of the LMS.
+
+Beware that assignments imported in IMSCC files are usually treated as
+templates and only offer a subset of the features that the LMS offers
+in its edited assignments.  For instance, Schoology (January 2024)
+allows creation of fill-in-the-blank questions with multiple correct
+answers but imports them from a cartridge file with only the first
+correct answer.  Likewise, it supports multiple fill-in-the-blank
+questions in its editor but cannot import them at all.
+
+Despite these limitations, this is an excellent interface to create
+programmatically generated assignments, question banks, notes, and
+other resources that is missing from most LMSs.  With a small amount
+of tooling, it is possible to create a workflow that builds a document
+from its sources and includes the generated product in a cartridge and
+subsequently updating the cartridge if the sources change (like
+compiling from LaTeX to PDF and including the PDF in the cartridge).
 
 Installation
-------------
+============
 
 Install vocutil with::
 
@@ -39,14 +65,19 @@ Install vocutil with::
 
 or add as a poetry dependency.
 
-If you desire a package locally built with poetry, download the
-source, change the appropriate lines in ``pyproject.toml``, and
-rebuild.
+Human-Friendly Data Formats
+===========================
 
-JSON Data Format
-----------------
+The XML used by IMSCC files is not friendly.  While it can be
+human-readable, even simple fill-in-the-blank questions require a
+tedious amount of XML boilerplate to comply with the format.
+``vocutil`` reads and writes its information in human-friendly JSON by
+default.
 
-All glossary data is stored in a master JSON file with the following format::
+Glossary Data Format
+--------------------
+
+All glossary data is stored as JSON with the following format::
 
   {
     "course": {
@@ -62,12 +93,31 @@ All glossary data is stored in a master JSON file with the following format::
         "definition": string,
         "chapter": integer,
         "section": integer
-      }
+      },
+      ...
     ]
   }
 
+Multiple Choice Question Format
+-------------------------------
+
+All multiple choice question data is stored as JSON with the following
+format::
+
+  {
+    "question": "question text",
+    "answers": [
+      {
+        "answer": "answer text",
+        "correct": boolean
+      },
+      ...
+    ]
+  }
+
+
 Copyright and License
----------------------
+=====================
 
 SPDX-License-Identifier: `GPL-3.0-or-later <https://spdx.org/licenses/GPL-3.0-or-later.html>`_
 
@@ -89,6 +139,6 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 Author
-------
+======
 
 `Jeremy A Gray <gray@flyquackswim.com>`_

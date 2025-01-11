@@ -1,4 +1,4 @@
-.. *****************************************************************************
+.. ***************************************************************************
 ..
 .. vocutil, educational vocabulary utilities.
 ..
@@ -8,7 +8,7 @@
 ..
 .. SPDX-License-Identifier: GPL-3.0-or-later
 ..
-.. *****************************************************************************
+.. ***************************************************************************
 
 =======
 Classes
@@ -20,6 +20,7 @@ Classes
 vocutil
 =======
 
-..
-   .. autoclass:: pdflatex2::PDFLaTeX
-      :members:
+.. autoclass:: vocutil.cc.FillInTheBlank
+   :members:
+.. autoclass:: vocutil.cc.Item
+   :members:

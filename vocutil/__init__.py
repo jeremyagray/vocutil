@@ -10,7 +10,7 @@
 #
 # ******************************************************************************
 
-"""vocutil module initialization."""
+"""vocutil module interface."""
 
 __version__ = "0.0.5"
 

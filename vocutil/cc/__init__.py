@@ -2,7 +2,7 @@
 #
 # vocutil, educational vocabulary utilities.
 #
-# Copyright 2022-2024 Jeremy A Gray <gray@flyquackswim.com>.
+# Copyright 2022-2025 Jeremy A Gray <gray@flyquackswim.com>.
 #
 # All rights reserved.
 #
@@ -10,12 +10,13 @@
 #
 # ******************************************************************************
 
-"""CC module initialization."""
+"""vocutil common cartridge module interface."""
 
 from .assessment import Assessment
 from .bank import Bank
 from .cartridge import Cartridge
 from .fib import FillInTheBlank
+from .item import Item
 from .manifest import Manifest
 from .mc import MultipleChoice
 from .resources import FileResource

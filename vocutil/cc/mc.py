@@ -2,7 +2,7 @@
 #
 # vocutil, educational vocabulary utilities.
 #
-# Copyright 2022-2024 Jeremy A Gray <gray@flyquackswim.com>.
+# Copyright 2022-2025 Jeremy A Gray <gray@flyquackswim.com>.
 #
 # All rights reserved.
 #
@@ -12,17 +12,30 @@
 
 """Common Cartridge multiple choice item."""
 
-import uuid
+import json
 from xml.etree.ElementTree import Element as ETElement  # nosec B405
 from xml.etree.ElementTree import SubElement as ETSubElement  # nosec B405
 
+import defusedxml.ElementTree as ET
 
-class MultipleChoice:
+from .item import Item
+
+
+class MultipleChoice(Item):
     """A Common Cartridge multiple choice item."""
 
-    def __init__(self, qdata, **kwargs):
-        """Initialize a multiple choice item."""
-        self.uuid = uuid.uuid4()
+    def __init__(self, question, answers, **kwargs):
+        """Initialize a multiple choice item.
+
+        Initialize a multiple choice item by storing the question and
+        answer data as plain Python objects for later output and as
+        IMSCC XML elements.
+        """
+        # Call the super.
+        super().__init__(**kwargs)
+
+        self.question = question
+        self.answers = answers
         self.item = ETElement("item", ident=str(self.uuid))
         self.itemmetadata = ETSubElement(self.item, "itemmetadata")
         self.qtimetadata = ETSubElement(self.itemmetadata, "qtimetadata")
@@ -34,7 +47,7 @@ class MultipleChoice:
         self.presentation = ETSubElement(self.item, "presentation")
         self.material = ETSubElement(self.presentation, "material")
         self.mattext = ETSubElement(self.material, "mattext", texttype="text/html")
-        self.mattext.text = qdata["question"]
+        self.mattext.text = question
 
         self.response = ETSubElement(
             self.presentation,
@@ -45,11 +58,11 @@ class MultipleChoice:
         self.choices = ETSubElement(self.response, "render_choice")
 
         correct = None
-        for i, ans in enumerate(qdata["answers"]):
+        for i, ans in enumerate(answers):
             ident = f"{self.uuid}-{i}"
             choice = ETSubElement(self.choices, "response_label", ident=ident)
             material = ETSubElement(choice, "material")
-            mattext = ETSubElement(material, "mattext", texttype="text/plain")
+            mattext = ETSubElement(material, "mattext", texttype="text/html")
             mattext.text = ans["answer"]
             if ans["correct"]:
                 correct = ident
@@ -78,3 +91,79 @@ class MultipleChoice:
         setvar.text = "100"
 
         return
+
+    @classmethod
+    def from_json(cls, data, **kwargs):
+        """Instantiate from JSON data.
+
+        Instantiate from JSON data.
+
+        Parameters
+        ----------
+        cls
+            The ``MultipleChoice`` class.
+        data : str
+            A string containing JSON data with which to generate the
+            PDF.
+        """
+        d = json.loads(data)
+
+        return cls(d["question"], d["answers"], **kwargs)
+
+    @classmethod
+    def from_xml(cls, item, **kwargs):
+        """Instantiate from IMSCC multiple choice item XML data.
+
+        Instantiate from IMSCC multiple choice item XML data.
+
+        Parameters
+        ----------
+        cls
+            The ``MultipleChoice`` class.
+        item : str
+            A string containing IMSCC multiple choice XML data with
+            which to generate the item.
+        """
+        tree = ET.fromstring(item)
+
+        # Question text.
+        q = tree.find("presentation").find("material").find("mattext").text
+
+        # Correct answer.
+        correct = (
+            tree.find("resprocessing")
+            .find("respcondition")
+            .find("conditionvar")
+            .find("varequal")
+            .text
+        )
+
+        # Answer choices.
+        a = []
+        for ele in (
+            tree.find("presentation")
+            .find("response_lid")
+            .find("render_choice")
+            .findall("response_label")
+        ):
+            a.append(
+                {
+                    "answer": ele.find("material").find("mattext").text,
+                    "correct": True if correct == ele.get("ident") else False,
+                }
+            )
+
+        return cls(q, a, **kwargs)
+
+    def to_json(self):
+        """Create JSON string from item data."""
+        return json.dumps(
+            {
+                "question": str(self.question),
+                "answers": self.answers,
+            }
+        )
+
+    def to_xml(self):
+        """Create XML string from item data."""
+        return ET.tostring(self.item, encoding="unicode", xml_declaration=True)

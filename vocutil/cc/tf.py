@@ -25,7 +25,7 @@ class TrueFalse(Item):
     """A Common Cartridge true/false item."""
 
     def __init__(self, question, answer, **kwargs):
-        """Initialize a multiple choice item.
+        """Initialize a true/false item.
 
         Parameters
         ----------
@@ -35,8 +35,7 @@ class TrueFalse(Item):
             The Boolean answer.
 
         Initialize a true/false item by storing the question and
-        answer data as plain Python objects for later output and as
-        IMSCC XML elements.
+        answer data as plain Python objects and as IMSCC XML elements.
         """
         # Call the super.
         super().__init__(**kwargs)
@@ -110,15 +109,15 @@ class TrueFalse(Item):
     def from_json(cls, data, **kwargs):
         """Instantiate a ``TrueFalse`` item from JSON data.
 
-        Instantiate a ``TrueFalse`` item from JSON data.
+        Instantiate a ``TrueFalse`` item from true/false item JSON
+        data.
 
         Parameters
         ----------
         cls
             The ``TrueFalse`` class.
         data : str
-            A string containing JSON data with which to generate the
-            item.
+            A string containing true/false item JSON data.
         """
         d = json.loads(data)
 
@@ -126,18 +125,17 @@ class TrueFalse(Item):
 
     @classmethod
     def from_xml(cls, item, **kwargs):
-        """Instantiate from IMSCC multiple choice item XML data.
+        """Instantiate from IMSCC true/false item XML data.
 
-        Instantiate a ``TrueFalse`` item from IMSCC multiple choice
-        item XML data.
+        Instantiate a ``TrueFalse`` item from IMSCC true/false item
+        XML data.
 
         Parameters
         ----------
         cls
             The ``MultipleChoice`` class.
         item : str
-            A string containing IMSCC true/false XML data with which
-            to generate the item.
+            A string containing IMSCC true/false item XML data.
         """
         tree = ET.fromstring(item)
 
@@ -172,7 +170,7 @@ class TrueFalse(Item):
         return cls(q, a, **kwargs)
 
     def to_json(self):
-        """Create JSON string from item data."""
+        """Create true/false item JSON string from item data."""
         return json.dumps(
             {
                 "question": str(self.question),
@@ -181,5 +179,5 @@ class TrueFalse(Item):
         )
 
     def to_xml(self):
-        """Create XML string from item data."""
+        """Create IMSCC true/false item XML string from item data."""
         return ET.tostring(self.item, encoding="unicode", xml_declaration=True)

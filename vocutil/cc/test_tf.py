@@ -39,7 +39,7 @@ def test_simple_tf():
 
 
 def test_tf_init_should_roundtrip_json():
-    """Should round-trip with JSON ``__init__``."""
+    """Should round-trip with JSON via ``__init__``."""
     qdata = {
         "question": "<p>One is one more than zero.</p>",
         "answer": True,

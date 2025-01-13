@@ -2,7 +2,7 @@
 #
 # vocutil, educational vocabulary utilities.
 #
-# Copyright 2022-2024 Jeremy A Gray <gray@flyquackswim.com>.
+# Copyright 2022-2025 Jeremy A Gray <gray@flyquackswim.com>.
 #
 # All rights reserved.
 #
@@ -31,12 +31,16 @@ def enrich():
                 {
                     "word": entry["word"] if "word" in entry else "",
                     "definition": entry["definition"] if "definition" in entry else "",
-                    "chapter": str(entry["chapter"])
-                    if "chapter" in entry and entry["chapter"]
-                    else str(chapter),
-                    "section": str(entry["section"])
-                    if "section" in entry and entry["section"]
-                    else "",
+                    "chapter": (
+                        str(entry["chapter"])
+                        if "chapter" in entry and entry["chapter"]
+                        else str(chapter)
+                    ),
+                    "section": (
+                        str(entry["section"])
+                        if "section" in entry and entry["section"]
+                        else ""
+                    ),
                 }
             )
 

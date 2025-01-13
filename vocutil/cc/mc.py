@@ -25,11 +25,16 @@ class MultipleChoice(Item):
     """A Common Cartridge multiple choice item."""
 
     def __init__(self, question, answers, **kwargs):
-        """Initialize a multiple choice item.
+        """Initialize a ``MultipleChoice`` item.
 
-        Initialize a multiple choice item by storing the question and
-        answer data as plain Python objects for later output and as
-        IMSCC XML elements.
+        Initialize a ``MultipleChoice`` item.
+
+        Parameters
+        ----------
+        question : str
+            The HTML formatted question text.
+        answers : [obj]
+            The possible answers.
         """
         # Call the super.
         super().__init__(**kwargs)
@@ -93,36 +98,34 @@ class MultipleChoice(Item):
         return
 
     @classmethod
-    def from_json(cls, data, **kwargs):
-        """Instantiate from JSON data.
+    def from_json(cls, item, **kwargs):
+        """Create a ``MultipleChoice`` item from JSON data.
 
-        Instantiate from JSON data.
-
-        Parameters
-        ----------
-        cls
-            The ``MultipleChoice`` class.
-        data : str
-            A string containing JSON data with which to generate the
-            PDF.
-        """
-        d = json.loads(data)
-
-        return cls(d["question"], d["answers"], **kwargs)
-
-    @classmethod
-    def from_xml(cls, item, **kwargs):
-        """Instantiate from IMSCC multiple choice item XML data.
-
-        Instantiate from IMSCC multiple choice item XML data.
+        Create a ``MultipleChoice`` item from JSON data.
 
         Parameters
         ----------
         cls
             The ``MultipleChoice`` class.
         item : str
-            A string containing IMSCC multiple choice XML data with
-            which to generate the item.
+            A string containing JSON multiple choice data.
+        """
+        data = json.loads(item)
+
+        return cls(data["question"], data["answers"], **kwargs)
+
+    @classmethod
+    def from_xml(cls, item, **kwargs):
+        """Create a ``MultipleChoice`` item from XML data.
+
+        Create a ``MultipleChoice`` item from XML data.
+
+        Parameters
+        ----------
+        cls
+            The ``MultipleChoice`` class.
+        item : str
+            A string containing IMSCC multiple choice XML data.
         """
         tree = ET.fromstring(item)
 
@@ -139,31 +142,45 @@ class MultipleChoice(Item):
         )
 
         # Answer choices.
-        a = []
-        for ele in (
-            tree.find("presentation")
-            .find("response_lid")
-            .find("render_choice")
-            .findall("response_label")
-        ):
-            a.append(
-                {
-                    "answer": ele.find("material").find("mattext").text,
-                    "correct": True if correct == ele.get("ident") else False,
-                }
+        a = [
+            {
+                "answer": ele.find("material").find("mattext").text,
+                "correct": True if correct == ele.get("ident") else False,
+            }
+            for ele in (
+                tree.find("presentation")
+                .find("response_lid")
+                .find("render_choice")
+                .findall("response_label")
             )
+        ]
 
         return cls(q, a, **kwargs)
 
     def to_json(self):
-        """Create JSON string from item data."""
+        """Create a multiple choice JSON string from item data."""
+        # Correct answer.
+        correct = (
+            self.item.find("resprocessing")
+            .find("respcondition")
+            .find("conditionvar")
+            .find("varequal")
+            .text
+        )
+
         return json.dumps(
             {
-                "question": str(self.question),
-                "answers": self.answers,
+                "question": self.mattext.text,
+                "answers": [
+                    {
+                        "answer": ele.find("material").find("mattext").text,
+                        "correct": True if correct == ele.get("ident") else False,
+                    }
+                    for ele in self.choices.findall("response_label")
+                ],
             }
         )
 
     def to_xml(self):
-        """Create XML string from item data."""
-        return ET.tostring(self.item, encoding="unicode", xml_declaration=True)
+        """Create a multiple choice XML string from item data."""
+        return ET.tostring(self.item, encoding="unicode")

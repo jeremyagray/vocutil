@@ -10,11 +10,9 @@
 #
 # ******************************************************************************
 
-"""vocutil CC multiple choice tests."""
+"""vocutil Common Cartridge multiple choice tests."""
 
 import json
-
-import defusedxml.ElementTree as ET
 
 import vocutil
 
@@ -45,12 +43,9 @@ def test_simple_mc():
 
     item = vocutil.cc.MultipleChoice(qdata["question"], qdata["answers"])
 
-    actual = f"""<item ident="{str(item.uuid)}"><itemmetadata><qtimetadata><qtimetadatafield><fieldlabel>cc_profile</fieldlabel><fieldentry>cc.multiple_choice.v0p1</fieldentry></qtimetadatafield></qtimetadata></itemmetadata><presentation><material><mattext texttype="text/html">&lt;p&gt;The three primary additive colors, when combined, will create this kind of light.&lt;/p&gt;</mattext></material><response_lid ident="{str(item.uuid)}" rcardinality="Single"><render_choice><response_label ident="{str(item.uuid)}-0"><material><mattext texttype="text/html">white</mattext></material></response_label><response_label ident="{str(item.uuid)}-1"><material><mattext texttype="text/html">black</mattext></material></response_label><response_label ident="{str(item.uuid)}-2"><material><mattext texttype="text/html">colorless</mattext></material></response_label><response_label ident="{str(item.uuid)}-3"><material><mattext texttype="text/html">clear</mattext></material></response_label></render_choice></response_lid></presentation><resprocessing><outcomes><decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" /></outcomes><respcondition continue="No"><conditionvar><varequal respident="{str(item.uuid)}">{str(item.uuid)}-0</varequal></conditionvar><setvar action="Set" varname="SCORE">100</setvar></respcondition></resprocessing></item>"""  # noqa: E501
+    actual = item.to_xml()
 
-    expected = ET.tostring(
-        item.item,
-        encoding="unicode",
-    )
+    expected = f"""<item ident="{str(item.uuid)}"><itemmetadata><qtimetadata><qtimetadatafield><fieldlabel>cc_profile</fieldlabel><fieldentry>cc.multiple_choice.v0p1</fieldentry></qtimetadatafield></qtimetadata></itemmetadata><presentation><material><mattext texttype="text/html">&lt;p&gt;The three primary additive colors, when combined, will create this kind of light.&lt;/p&gt;</mattext></material><response_lid ident="{str(item.uuid)}" rcardinality="Single"><render_choice><response_label ident="{str(item.uuid)}-0"><material><mattext texttype="text/html">white</mattext></material></response_label><response_label ident="{str(item.uuid)}-1"><material><mattext texttype="text/html">black</mattext></material></response_label><response_label ident="{str(item.uuid)}-2"><material><mattext texttype="text/html">colorless</mattext></material></response_label><response_label ident="{str(item.uuid)}-3"><material><mattext texttype="text/html">clear</mattext></material></response_label></render_choice></response_lid></presentation><resprocessing><outcomes><decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" /></outcomes><respcondition continue="No"><conditionvar><varequal respident="{str(item.uuid)}">{str(item.uuid)}-0</varequal></conditionvar><setvar action="Set" varname="SCORE">100</setvar></respcondition></resprocessing></item>"""  # noqa: E501
 
     assert actual == expected
 

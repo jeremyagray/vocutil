@@ -10,7 +10,7 @@
 #
 # ******************************************************************************
 
-"""vocutil common cartridge module interface."""
+"""vocutil Common Cartridge module interface."""
 
 from .assessment import Assessment
 from .bank import Bank
@@ -23,3 +23,4 @@ from .resources import FileResource
 from .resources import HTMLFileResource
 from .resources import QuestionBankResource
 from .resources import Resource
+from .tf import TrueFalse

@@ -153,6 +153,7 @@ class FillInTheBlank(Item):
         """Create a fill-in-the-blank JSON string from item data."""
         return json.dumps(
             {
+                "type": "fib",
                 "question": str(self.mattext.text),
                 "answers": [
                     {

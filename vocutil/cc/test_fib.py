@@ -18,6 +18,7 @@ import vocutil
 def test_one_correct_response_case_insensitive():
     """Should produce correct XML for one correct, case insensitive response."""
     qdata = {
+        "type": "fib",
         "question": "<p>_:  the process of separating a wave of different frequencies into its individual component waves</p>",  # noqa: E501
         "answers": [
             {
@@ -42,6 +43,7 @@ def test_one_correct_response_case_insensitive():
 def test_one_correct_response_case_sensitive():
     """Should produce correct XML for one correct, case sensitive response."""
     qdata = {
+        "type": "fib",
         "question": "<p>_:  the process of separating a wave of different frequencies into its individual component waves</p>",  # noqa: E501
         "answers": [
             {
@@ -66,6 +68,7 @@ def test_one_correct_response_case_sensitive():
 def test_two_correct_responses_case_insensitive():
     """Should produce correct XML for two correct, case insensitive responses."""
     qdata = {
+        "type": "fib",
         "question": "<p>_:  the process of separating a wave of different frequencies into its individual component waves</p>",  # noqa: E501
         "answers": [
             {
@@ -94,6 +97,7 @@ def test_two_correct_responses_case_insensitive():
 def test_two_correct_responses_case_sensitive():
     """Should produce correct XML for two correct, case sensitive responses."""
     qdata = {
+        "type": "fib",
         "question": "<p>_:  the process of separating a wave of different frequencies into its individual component waves</p>",  # noqa: E501
         "answers": [
             {

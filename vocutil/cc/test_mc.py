@@ -20,6 +20,7 @@ import vocutil
 def test_simple_mc():
     """Should produce a simple multiple choice item."""
     qdata = {
+        "type": "multiple choice",
         "question": "<p>The three primary additive colors, when combined, will create this kind of light.</p>",  # noqa: E501
         "answers": [
             {
@@ -53,6 +54,7 @@ def test_simple_mc():
 def test_mc_json_roundtrip():
     """Should produce a simple multiple choice item."""
     qdata = {
+        "type": "multiple choice",
         "question": "<p>The three primary additive colors, when combined, will create this kind of light.</p>",  # noqa: E501
         "answers": [
             {
@@ -82,6 +84,7 @@ def test_mc_json_roundtrip():
 def test_mc_xml_roundtrip():
     """Should roundtrip with XML."""
     qdata = {
+        "type": "multiple choice",
         "question": "<p>The three primary additive colors, when combined, will create this kind of light.</p>",  # noqa: E501
         "answers": [
             {

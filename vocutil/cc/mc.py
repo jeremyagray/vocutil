@@ -170,6 +170,7 @@ class MultipleChoice(Item):
 
         return json.dumps(
             {
+                "type": "multiple choice",
                 "question": self.mattext.text,
                 "answers": [
                     {

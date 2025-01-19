@@ -20,6 +20,7 @@ import vocutil
 def test_simple_tf():
     """Should produce a simple true/false item."""
     qdata = {
+        "type": "true/false",
         "question": "<p>One is one more than zero.</p>",
         "answer": True,
     }
@@ -36,6 +37,7 @@ def test_simple_tf():
 def test_tf_init_should_roundtrip_json():
     """Should round-trip with JSON via ``__init__``."""
     qdata = {
+        "type": "true/false",
         "question": "<p>One is one more than zero.</p>",
         "answer": True,
     }
@@ -48,6 +50,7 @@ def test_tf_init_should_roundtrip_json():
 def test_tf_cls_should_roundtrip_json():
     """Should round-trip with JSON via class method."""
     qdata = {
+        "type": "true/false",
         "question": "<p>One is one more than zero.</p>",
         "answer": True,
     }

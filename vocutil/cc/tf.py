@@ -187,6 +187,7 @@ class TrueFalse(Item):
 
         return json.dumps(
             {
+                "type": "true/false",
                 "question": str(
                     self.item.find("presentation").find("material").find("mattext").text
                 ),

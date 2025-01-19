@@ -2,7 +2,7 @@
 ..
 .. vocutil, educational vocabulary utilities.
 ..
-.. Copyright 2022-2024 Jeremy A Gray <gray@flyquackswim.com>.
+.. Copyright 2022-2025 Jeremy A Gray <gray@flyquackswim.com>.
 ..
 .. All rights reserved.
 ..
@@ -98,6 +98,31 @@ All glossary data is stored as JSON with the following format::
     ]
   }
 
+Currently, only the ``"glossary"`` array and only the ``"word"`` and
+``"definition"`` parts of each entry are used.
+
+Fill-in-the-Blank Question Format
+---------------------------------
+
+All fill-in-the-blank question data is stored as JSON with the
+following format::
+
+  {
+    "type": "fib",
+    "question": "question text",
+    "answers": [
+      {
+        "answer": "answer text",
+        "case": "No"
+      },
+      ...
+    ]
+  }
+
+Multiple answers are treated as correct variations.  ``"case"`` should
+be ``"Yes"`` or ``"No"`` (default).  Each question should have at
+least one answer.
+
 Multiple Choice Question Format
 -------------------------------
 
@@ -105,6 +130,7 @@ All multiple choice question data is stored as JSON with the following
 format::
 
   {
+    "type": "multiple choice",
     "question": "question text",
     "answers": [
       {
@@ -115,6 +141,43 @@ format::
     ]
   }
 
+Answers are stored just multiple response types and the correct answer
+should have ``"correct"`` be ``true``.  At most one answer can be
+correct.
+
+True/False Question Format
+--------------------------
+
+All true/false question data is stored as JSON with the following
+format::
+
+  {
+    "type": "true/false",
+    "question": "question text",
+    "answers": boolean
+  }
+
+Multiple Response Question Format
+---------------------------------
+
+All multiple response question data is stored as JSON with the
+following format::
+
+  {
+    "type": "multiple response",
+    "question": "question text",
+    "answers": [
+      {
+        "answer": "answer text",
+        "correct": boolean
+      },
+      ...
+    ]
+  }
+
+Answers are stored just multiple choice types, but all correct answers
+should have ``"correct"`` be ``true``.  At least one answer should be
+correct.
 
 Copyright and License
 =====================
@@ -123,7 +186,7 @@ SPDX-License-Identifier: `GPL-3.0-or-later <https://spdx.org/licenses/GPL-3.0-or
 
 vocutil, educational vocabulary utilities.
 
-Copyright (C) 2022-2024 `Jeremy A Gray <gray@flyquackswim.com>`_.
+Copyright (C) 2022-2025 `Jeremy A Gray <gray@flyquackswim.com>`_.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

@@ -19,6 +19,7 @@ from .fib import FillInTheBlank
 from .item import Item
 from .manifest import Manifest
 from .mc import MultipleChoice
+from .mr import MultipleResponse
 from .resources import FileResource
 from .resources import HTMLFileResource
 from .resources import QuestionBankResource

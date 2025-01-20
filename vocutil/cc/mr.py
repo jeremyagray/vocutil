@@ -240,6 +240,10 @@ class MultipleResponse(Item):
             }
         )
 
-    def to_xml(self):
+    def to_xml(self, declaration=False):
         """Create a multiple response XML string from item data."""
-        return ET.tostring(self.item, encoding="unicode")
+        return ET.tostring(
+            self.item,
+            encoding="unicode",
+            xml_declaration=declaration,
+        )

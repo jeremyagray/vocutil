@@ -2,7 +2,7 @@
 #
 # vocutil, educational vocabulary utilities.
 #
-# Copyright 2022-2024 Jeremy A Gray <gray@flyquackswim.com>.
+# Copyright 2022-2025 Jeremy A Gray <gray@flyquackswim.com>.
 #
 # All rights reserved.
 #
@@ -12,26 +12,69 @@
 
 """vocutil CC item bank tests."""
 
-import sys
+import json
 
-import defusedxml.ElementTree as ET
-
-# import pytest
-
-sys.path.insert(0, "/home/gray/src/work/vocutil")
-
-import vocutil  # noqa: E402
+import vocutil
 
 
-def test_empty_item_bank():
-    """Should produce an empty item bank."""
-    bank = vocutil.cc.Bank()
+def test_should_create_empty_bank():
+    """Should create an empty bank."""
+    questions = vocutil.cc.Bank()
 
-    actual = f"""<questestinterop xmlns="http://www.imsglobal.org/xsd/ims_qtiasiv1p2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsglobal.org/xsd/ims_qtiasiv1p2 http://www.imsglobal.org/profile/cc/ccv1p2/ccv1p2_qtiasiv1p2p1_v1p0.xsd"><objectbank ident="{str(bank.uuid)}" /></questestinterop>"""  # noqa: E501
+    expected = f"""<questestinterop xmlns="http://www.imsglobal.org/xsd/ims_qtiasiv1p2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsglobal.org/xsd/ims_qtiasiv1p2 http://www.imsglobal.org/profile/cc/ccv1p2/ccv1p2_qtiasiv1p2p1_v1p0.xsd"><objectbank ident="{str(questions.uuid)}" /></questestinterop>"""  # noqa: E501
 
-    expected = ET.tostring(
-        bank.doc,
-        encoding="unicode",
+    actual = questions.to_xml()
+
+    assert actual == expected
+
+
+def test_should_create_empty_bank_from_json():
+    """Should create an empty bank from JSON."""
+    questions = vocutil.cc.Bank.from_json(
+        json.dumps(
+            {
+                "type": "question bank",
+                "questions": [],
+            }
+        )
     )
+
+    expected = f"""<questestinterop xmlns="http://www.imsglobal.org/xsd/ims_qtiasiv1p2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsglobal.org/xsd/ims_qtiasiv1p2 http://www.imsglobal.org/profile/cc/ccv1p2/ccv1p2_qtiasiv1p2p1_v1p0.xsd"><objectbank ident="{str(questions.uuid)}" /></questestinterop>"""  # noqa: E501
+
+    actual = questions.to_xml()
+
+    assert actual == expected
+
+
+def test_should_create_empty_bank_from_xml():
+    """Should create an empty bank from IMSCC question bank XML."""
+    bank = """<questestinterop xmlns="http://www.imsglobal.org/xsd/ims_qtiasiv1p2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsglobal.org/xsd/ims_qtiasiv1p2 http://www.imsglobal.org/profile/cc/ccv1p2/ccv1p2_qtiasiv1p2p1_v1p0.xsd"><objectbank ident="1" /></questestinterop>"""  # noqa: E501
+
+    questions = vocutil.cc.Bank.from_xml(bank)
+
+    expected = f"""<questestinterop xmlns="http://www.imsglobal.org/xsd/ims_qtiasiv1p2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsglobal.org/xsd/ims_qtiasiv1p2 http://www.imsglobal.org/profile/cc/ccv1p2/ccv1p2_qtiasiv1p2p1_v1p0.xsd"><objectbank ident="{str(questions.uuid)}" /></questestinterop>"""  # noqa: E501
+
+    actual = questions.to_xml()
+
+    assert actual == expected
+
+
+def test_should_export_empty_json_bank():
+    """Should export an empty JSON bank."""
+    questions = vocutil.cc.Bank.from_json(
+        json.dumps(
+            {
+                "type": "question bank",
+                "questions": [],
+            }
+        )
+    )
+
+    expected = {
+        "type": "question bank",
+        "questions": [],
+    }
+
+    actual = json.loads(questions.to_json())
 
     assert actual == expected

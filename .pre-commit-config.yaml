@@ -29,7 +29,7 @@ repos:
       - id: trailing-whitespace
 
   - repo: https://github.com/psf/black
-    rev: 24.10.0
+    rev: 25.1.0
     hooks:
       - id: black
         language_version: python3
@@ -40,7 +40,7 @@ repos:
       - id: flake8
 
   - repo: https://github.com/pycqa/isort
-    rev: 5.13.2
+    rev: 6.0.0
     hooks:
       - id: isort
 
@@ -50,7 +50,7 @@ repos:
       - id: pydocstyle
 
   - repo: https://github.com/pycqa/bandit
-    rev: 1.8.0
+    rev: 1.8.2
     hooks:
       - id: bandit
         args: ["--config", "pyproject.toml"]

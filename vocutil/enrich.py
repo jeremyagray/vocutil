@@ -20,8 +20,8 @@ from .load import load_glossary
 
 def enrich():
     """Combine glossary and course data."""
-    data = load_glossary(sys.argv[1])
-    chapter = int(sys.argv[2])
+    chapter = int(sys.argv[1])
+    data = load_glossary(sys.argv[2])
     glossary_fns = sys.argv[3:]
 
     for fn in glossary_fns:

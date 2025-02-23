@@ -25,6 +25,12 @@ def test_item_should_have_valid_uuid():
     assert str(UUID(str(item.uuid))) == str(item.uuid)
 
 
+def test_from_dict_should_raise():
+    """``Item.from_dict()`` should raise."""
+    with pytest.raises(NotImplementedError):
+        Item.from_dict({})
+
+
 def test_from_json_should_raise():
     """``Item.from_json()`` should raise."""
     with pytest.raises(NotImplementedError):
@@ -35,6 +41,13 @@ def test_from_xml_should_raise():
     """``Item.from_xml()`` should raise."""
     with pytest.raises(NotImplementedError):
         Item.from_xml("")
+
+
+def test_to_dict_should_raise():
+    """``Item.to_dict()`` should raise."""
+    with pytest.raises(NotImplementedError):
+        item = Item()
+        item.to_dict()
 
 
 def test_to_json_should_raise():

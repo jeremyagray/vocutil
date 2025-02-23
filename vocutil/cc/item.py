@@ -29,6 +29,32 @@ class Item:
         return
 
     @classmethod
+    def from_dict(cls, data, **kwargs):
+        """Instantiate from a dict.
+
+        Instantiate from a dict.  Subclasses should override this
+        method.
+
+        Parameters
+        ----------
+        cls
+            The ``Item`` class.
+        data : dict
+            A dict containing data from which the class expects to be
+            initialized.
+
+        Raises
+        ------
+        NotImplementedError
+            Raises if you do not implement this part of the interface
+            you filthy animal.
+        """
+        raise NotImplementedError(
+            "Items inheriting from ``Item`` should implement their own"
+            " ``from_dict()`` interface."
+        )
+
+    @classmethod
     def from_json(cls, data, **kwargs):
         """Instantiate from JSON data.
 
@@ -78,6 +104,23 @@ class Item:
         raise NotImplementedError(
             "Items inheriting from ``Item`` should implement"
             " their own ``from_xml()`` interface."
+        )
+
+    def to_dict(self):
+        """Create a dict of item data.
+
+        Create a dict of item data.  Subclasses should override this
+        method.
+
+        Raises
+        ------
+        NotImplementedError
+            Raises if you do not implement this part of the interface
+            you filthy animal.
+        """
+        raise NotImplementedError(
+            "Items inheriting from ``Item`` should implement"
+            " their own ``to_dict()`` interface."
         )
 
     def to_json(self):

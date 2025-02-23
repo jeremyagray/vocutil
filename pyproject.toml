@@ -175,3 +175,7 @@ enrich = "vocutil:enrich"
 "Repository" = "https://github.com/jeremyagray/vocutil"
 
 [tool.pytest.ini_options]
+
+pythonpath = [
+  ".",
+]

@@ -24,6 +24,7 @@
 .tox
 .venv
 __pycache__
+bin
 build
 commit
 dist/

@@ -18,56 +18,13 @@ build-backend = "poetry.core.masonry.api"
 
 [tool]
 
-[tool.bandit.assert_used]
-
-exclude_dirs = [
-  ".git",
-  ".pytest_cache",
-  ".tox",
-  ".venv",
-  "dist",
-  "docs",
-  "htmlcov",
-  "vocutil.egg-info",
-]
-
-skips = [
-  "**/test_*.py",
-]
-
-[tool.black]
-
-line-length = 88
-include = '\.pyi?$'
-exclude = '''
-(
-  /(
-    \.git
-    | \.pytest_cache
-    | \.tox
-    | \.venv
-    | __pycache__
-    | dist
-    | htmlcov
-  )/
-)
-'''
-
 [tool.doc8]
 
 ignore-path = [
   ".tox",
   ".venv",
+  "*.egg-info",
 ]
-
-[tool.isort]
-
-ensure_newline_before_comments = true
-force_single_line = true
-include_trailing_comma = true
-line_length = 88
-multi_line_output = 3
-use_parentheses = true
 
 [tool.pccc]
 
@@ -126,9 +83,9 @@ classifiers = [
   "Development Status :: 1 - Planning",
   "Intended Audience :: Education",
   "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
-  "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
 ]
 
 packages = [
@@ -139,34 +96,26 @@ packages = [
 
 Jinja2 = ">=3"
 defusedxml = ">=0"
-pyparsing = ">=3"
-python = ">=3.11.1,<4.0"
-python-docx = ">=1"
+python = ">=3.12.1,<4.0"
 
 [tool.poetry.group.dev.dependencies]
 
-bandit = ">=1"
-black = ">=24"
-doc8 = ">=1"
-factory-boy = ">=3"
-flake8 = ">=7"
-flake8-docstrings = ">=1"
+doc8 = ">=2"
 hypothesis = ">=6"
-isort = ">=5"
 pccc = ">=0"
 pre-commit = ">=4"
-pydocstyle = ">=6"
 pyfakefs = ">=5"
 pytest = ">=8"
 pytest-cov = ">=6"
+ruff = ">=0"
 sphinx = ">=8"
 tox = ">=4"
-yesqa = ">=1"
 
 [tool.poetry.scripts]
 
 create-unit = "vocutil:create_unit"
 enrich = "vocutil:enrich"
+gjson2csv = "vocutil:export_csv"
 
 [tool.poetry.urls]
 
@@ -178,4 +127,38 @@ enrich = "vocutil:enrich"
 
 pythonpath = [
   ".",
+]
+
+[tool.ruff.lint]
+
+select = [
+  "B",
+  "C90",
+  "D",
+  "E",
+  "F",
+  "RUF",
+  "S",
+  "W",
+]
+
+ignore = [
+  "D203",
+  "D213",
+]
+
+[tool.ruff.lint.per-file-ignores]
+
+"__init__.py" = [
+  "F401",
+]
+
+"tests/**/*.py" = [
+    "S101",
+    "S311",
+]
+
+"**/test_*.py" = [
+    "S101",
+    "S311",
 ]

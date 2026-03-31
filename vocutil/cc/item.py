@@ -2,7 +2,7 @@
 #
 # vocutil, educational vocabulary utilities.
 #
-# Copyright 2022-2025 Jeremy A Gray <gray@flyquackswim.com>.
+# Copyright 2022-2026 Jeremy A Gray <gray@flyquackswim.com>.
 #
 # All rights reserved.
 #
@@ -40,14 +40,16 @@ class Item:
         cls
             The ``Item`` class.
         data : dict
-            A dict containing data from which the class expects to be
-            initialized.
+            Item data.
+        kwargs : dict
+            Additional data passed to the class.
 
         Raises
         ------
         NotImplementedError
             Raises if you do not implement this part of the interface
             you filthy animal.
+
         """
         raise NotImplementedError(
             "Items inheriting from ``Item`` should implement their own"
@@ -65,15 +67,17 @@ class Item:
         ----------
         cls
             The ``Item`` class.
-        data : str
-            A string containing JSON data with which to generate the
-            item.
+        data : dict
+            Item data.
+        kwargs : dict
+            Additional data passed to the class.
 
         Raises
         ------
         NotImplementedError
             Raises if you do not implement this part of the interface
             you filthy animal.
+
         """
         raise NotImplementedError(
             "Items inheriting from ``Item`` should implement their own"
@@ -81,7 +85,7 @@ class Item:
         )
 
     @classmethod
-    def from_xml(cls, item, **kwargs):
+    def from_xml(cls, data, **kwargs):
         """Instantiate from IMSCC XML data.
 
         Instantiate from IMSCC XML data.  Subclasses should override
@@ -91,15 +95,18 @@ class Item:
         ----------
         cls
             The ``Item`` class.
-        item : str
-            A string containing IMSCC multiple choice XML data with
-            which to generate the item.
+        data : str
+            A string containing XML data of one of the IMSCC item
+            types.
+        kwargs : dict
+            Additional data passed to the class.
 
         Raises
         ------
         NotImplementedError
             Raises if you do not implement this part of the interface
             you filthy animal.
+
         """
         raise NotImplementedError(
             "Items inheriting from ``Item`` should implement"
@@ -117,6 +124,7 @@ class Item:
         NotImplementedError
             Raises if you do not implement this part of the interface
             you filthy animal.
+
         """
         raise NotImplementedError(
             "Items inheriting from ``Item`` should implement"
@@ -134,6 +142,7 @@ class Item:
         NotImplementedError
             Raises if you do not implement this part of the interface
             you filthy animal.
+
         """
         raise NotImplementedError(
             "Items inheriting from ``Item`` should implement"
@@ -151,6 +160,7 @@ class Item:
         NotImplementedError
             Raises if you do not implement this part of the interface
             you filthy animal.
+
         """
         raise NotImplementedError(
             "Items inheriting from ``Item`` should implement"

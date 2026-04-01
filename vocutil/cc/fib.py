@@ -2,7 +2,7 @@
 #
 # vocutil, educational vocabulary utilities.
 #
-# Copyright 2022-2025 Jeremy A Gray <gray@flyquackswim.com>.
+# Copyright 2022-2026 Jeremy A Gray <gray@flyquackswim.com>.
 #
 # All rights reserved.
 #
@@ -13,18 +13,37 @@
 """Common Cartridge fill-in-the-blank item."""
 
 import json
-from xml.etree.ElementTree import Element as ETElement  # nosec B405
-from xml.etree.ElementTree import SubElement as ETSubElement  # nosec B405
+from xml.etree.ElementTree import Element as ETElement
+from xml.etree.ElementTree import SubElement as ETSubElement
 
 import defusedxml.ElementTree as ET
 
 from .item import Item
 
+_CASE_SENSITIVE = {
+    "Yes": "Yes",
+    "No": "No",
+    "yes": "Yes",
+    "no": "No",
+    True: "Yes",
+    False: "No",
+}
+
+
+def _canonicalize_case(case):
+    """Canonicalize the answer case sensitivity."""
+    sensitivity = _CASE_SENSITIVE.get(case)
+
+    if sensitivity is None:
+        raise ValueError(f'case {case} cannot be canonicalized to "Yes" or "No"')
+
+    return sensitivity
+
 
 class FillInTheBlank(Item):
     """A Common Cartridge fill in the blank item."""
 
-    def __init__(self, question, answers, default_case="No", **kwargs):
+    def __init__(self, question, answers, case="No", **kwargs):
         """Initialize a ``FillInTheBlank`` item.
 
         Initialize a ``FillInTheBlank`` item.
@@ -35,13 +54,18 @@ class FillInTheBlank(Item):
             The HTML formatted question text.
         answers : [obj]
             The correct answer(s).
+        case : { "Yes", "No" }
+            The default case sensitivity for answers.
+        kwargs : dict
+            Data passed to super class.
+
         """
         # Call the super.
         super().__init__(**kwargs)
 
         self.question = question
         self.answers = answers
-        self.default_case = default_case if default_case == "Yes" else "No"
+        self.case = _canonicalize_case(case)
 
         self.item = ETElement("item", ident=str(self.uuid))
         self.itemmetadata = ETSubElement(self.item, "itemmetadata")
@@ -60,7 +84,7 @@ class FillInTheBlank(Item):
             self.presentation,
             "response_str",
             rcardinality="Single",
-            ident=f"fib-resp-{str(self.uuid)}",
+            ident=f"fib-resp-{self.uuid!s}",
         )
         self.blank = ETSubElement(self.response, "render_fib", prompt="Dashline")
 
@@ -88,8 +112,12 @@ class FillInTheBlank(Item):
             varequal = ETSubElement(
                 condvar,
                 "varequal",
-                case=answer["case"] if "case" in answer else self.default_case,
-                respident=f"fib-resp-{str(self.uuid)}",
+                case=(
+                    _canonicalize_case(answer["case"])
+                    if "case" in answer
+                    else self.case
+                ),
+                respident=f"fib-resp-{self.uuid!s}",
             )
             varequal.text = answer["answer"]
 
@@ -111,6 +139,9 @@ class FillInTheBlank(Item):
             The ``FillInTheBlank`` class.
         item : str
             A string containing JSON fill-in-the-blank data.
+        kwargs : dict
+            Additional data passed to the class.
+
         """
         data = json.loads(item)
 
@@ -129,6 +160,9 @@ class FillInTheBlank(Item):
             The ``FillInTheBlank`` class.
         item : str
             A string containing IMSCC fill-in-the-blank XML data.
+        kwargs : dict
+            Additional data passed to the class.
+
         """
         tree = ET.fromstring(item)
 
@@ -150,7 +184,12 @@ class FillInTheBlank(Item):
         return cls(q, a, **kwargs)
 
     def to_json(self):
-        """Create a fill-in-the-blank JSON string from item data."""
+        """Create a fill-in-the-blank JSON string from item data.
+
+        The question and answer data is pulled from the XML tree in
+        ``self`` so that all processing of the data is complete and
+        correct data can be produced.
+        """
         return json.dumps(
             {
                 "type": "fib",

@@ -2,7 +2,7 @@
 #
 # vocutil, educational vocabulary utilities.
 #
-# Copyright 2022-2025 Jeremy A Gray <gray@flyquackswim.com>.
+# Copyright 2022-2026 Jeremy A Gray <gray@flyquackswim.com>.
 #
 # All rights reserved.
 #
@@ -16,6 +16,7 @@ from .assessment import Assessment
 from .bank import Bank
 from .cartridge import Cartridge
 from .fib import FillInTheBlank
+from .fib import _canonicalize_case
 from .item import Item
 from .manifest import Manifest
 from .mc import MultipleChoice

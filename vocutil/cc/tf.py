@@ -2,7 +2,7 @@
 #
 # vocutil, educational vocabulary utilities.
 #
-# Copyright 2022-2025 Jeremy A Gray <gray@flyquackswim.com>.
+# Copyright 2022-2026 Jeremy A Gray <gray@flyquackswim.com>.
 #
 # All rights reserved.
 #
@@ -13,8 +13,8 @@
 """Common Cartridge true/false item."""
 
 import json
-from xml.etree.ElementTree import Element as ETElement  # nosec B405
-from xml.etree.ElementTree import SubElement as ETSubElement  # nosec B405
+from xml.etree.ElementTree import Element as ETElement
+from xml.etree.ElementTree import SubElement as ETSubElement
 
 import defusedxml.ElementTree as ET
 
@@ -34,7 +34,10 @@ class TrueFalse(Item):
         question : str
             The HTML formatted question text.
         answer : bool
-            The Boolean answer.
+            The answer.
+        kwargs : dict
+            Additional data passed to the super class.
+
         """
         # Call the super.
         super().__init__(**kwargs)
@@ -116,6 +119,9 @@ class TrueFalse(Item):
             The ``TrueFalse`` class.
         item : str
             A string containing true/false JSON data.
+        kwargs : dict
+            Additional data passed to the class.
+
         """
         data = json.loads(item)
 
@@ -133,6 +139,9 @@ class TrueFalse(Item):
             The ``TrueFalse`` class.
         item : str
             A string containing IMSCC true/false XML data.
+        kwargs : dict
+            Additional data passed to the class.
+
         """
         tree = ET.fromstring(item)
 
@@ -168,30 +177,11 @@ class TrueFalse(Item):
 
     def to_json(self):
         """Create a true/false JSON string from item data."""
-        # Correct answer.
-        correct = (
-            self.item.find("resprocessing")
-            .find("respcondition")
-            .find("conditionvar")
-            .find("varequal")
-            .text
-        )
-
-        for ele in self.choices.findall("response_label"):
-            if correct == ele.get("ident"):
-                answer = (
-                    True
-                    if ele.find("material").find("mattext").text.lower() == "true"
-                    else False
-                )
-
         return json.dumps(
             {
                 "type": "true/false",
-                "question": str(
-                    self.item.find("presentation").find("material").find("mattext").text
-                ),
-                "answer": answer,
+                "question": self.question,
+                "answer": self.answer,
             }
         )
 
